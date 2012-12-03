@@ -14,7 +14,10 @@ class Execute() :
         return
 
     def run(self, cmds) :
-        if cmds[0] == "cd" :
+        print(cmds)
+        if len(cmds) == 0 :
+            return
+        elif cmds[0] == "cd" :
             self.run_cd(cmds)
         elif cmds[0] == "ls" :
             self.run_ls(cmds)

@@ -48,17 +48,17 @@ class Prompt() :
         if state == 0 :
             # i feel like get_line_buffer() is broken, it holds previous
             # buffer when input is empty yet.
-            self._buf = readline.get_line_buffer()
-            print("buf:" + self._buf)
-            if self._buf == "" :
-                return None
-            self._arg = shsplit(self._buf)
-            if len(self._arg) == 0 :
-                curdir = self.env.cwd
+            buf = readline.get_line_buffer()
+            if buf == "" :
+                self._cand = []
             else :
-                curdir = self.env.get_dir(self._arg[-1])
-            child, current = self.env.get_current_list(curdir or self.env.cwd)
-            self._cand = com_filter(current, text)
+                arg = shsplit(buf)
+                if len(arg) == 0 :
+                    curdir = self.env.cwd
+                else :
+                    curdir = self.env.get_dir(arg[-1]) or self.env.cwd
+                child, current = self.env.get_current_list(curdir)
+                self._cand = com_filter(current, text)
 
         try :
             return self._cand[state]
