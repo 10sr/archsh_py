@@ -19,12 +19,16 @@ class Execute() :
     def run_cd(self, env, cmds) :
         newd = env.cwd + cmds[1]
         if not newd.endswith("/") :
-            newd = newd = + "/"
+            newd = newd + "/"
         if newd in env.list :
             env.cwd = newd
         return
 
     def run_ls(self, env, cmds) :
-        for e in env.list :
+        child = [e.replace(env.cwd, "", 1) for e in env.list \
+                     if e.startswith(env.cwd)]
+        current = [e for e in child if \
+                       (not "/" in e and e != "") or \
+                       (e.count("/") == 1 and e.endswith("/"))]
+        for e in current :
             print(e)
-        pass

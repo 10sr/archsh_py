@@ -16,8 +16,8 @@ else:
 
 class Prompt() :
     def __init__(self, env) :
-        # if readline :
-        #     readline.set_completer(self._completer)
+        if readline :
+            readline.set_completer(self._completer)
         return
 
     def input(self, env) :
@@ -62,12 +62,12 @@ class Prompt() :
             return self.r
 
         args = shsplit(input)
-        eargs = [args[0]]
-        for a in args[1:] :
-            g = glob(a)
-            if len(g) == 0 :
-                eargs.extend([a])
-            else :
-                eargs.extend(g)
-        self.r = eargs
+        # eargs = [args[0]]
+        # for a in args[1:] :
+        #     g = glob(a)
+        #     if len(g) == 0 :
+        #         eargs.extend([a])
+        #     else :
+        #         eargs.extend(g)
+        self.r = args
         return self.r
