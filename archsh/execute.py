@@ -10,4 +10,21 @@ class Execute() :
         return
 
     def run(self, env, cmds) :
+        if cmds[0] == "cd" :
+            self.run_cd(env, cmds)
+        elif cmds[0] == "ls" :
+            self.run_ls(env, cmds)
+        return
+
+    def run_cd(self, env, cmds) :
+        newd = env.cwd + cmds[1]
+        if not newd.endswith("/") :
+            newd = newd = + "/"
+        if newd in env.list :
+            env.cwd = newd
+        return
+
+    def run_ls(self, env, cmds) :
+        for e in env.list :
+            print(e)
         pass

@@ -28,7 +28,7 @@ class Prompt() :
         self.list = env.list
 
         try :
-            self.s = input("%s $ " % env.cwd)
+            self.s = input("%s:%s $ " % (env.file, env.cwd))
             return self._parse_input(self.s)
         except (EOFError, KeyboardInterrupt) :
             print("")

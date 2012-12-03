@@ -8,7 +8,8 @@ class Shell() :
         self.e = Environ(archname)
         self.p = Prompt(self.e)
         self.x = Execute(self.e)
-        print(self.e.list)
+        for e in self.e.list :
+            print(e)
         return
 
     def main(self) :
@@ -22,7 +23,7 @@ class Shell() :
 
 class Environ() :
     file = ""
-    cwd = "/"
+    cwd = ""
     list = []
     def __init__(self, archname) :
         self.file = archname
