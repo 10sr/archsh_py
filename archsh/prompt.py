@@ -15,20 +15,26 @@ else:
         readline.parse_and_bind("tab: complete")
 
 class Prompt() :
+    _cand = []                  # candidate for completer
+    _buf = ""                   # current buffer of readline
+    _arg = []                   # splitted self._buf
+
     def __init__(self, env) :
+        self.env = env
         if readline :
             readline.set_completer(self._completer)
         return
 
-    def input(self, env) :
+    def input(self) :
         """Get input from user and return list of arg or None if C-c.
 
         cwd is pseudo current directory, list is list of all file arch contains
         """
-        self.list = env.list
+        self.list = self.env.list
 
         try :
-            self.s = input("%s:%s $ " % (env.file, env.cwd))
+            readline.insert_text("")
+            self.s = input("%s:/%s $ " % (self.env.file, self.env.cwd))
             return self._parse_input(self.s)
         except (EOFError, KeyboardInterrupt) :
             print("")
@@ -39,21 +45,24 @@ class Prompt() :
         def com_filter(array, text) :
             return [s for s in array if s.startswith(text)]
 
-        b = readline.get_line_buffer()
-        for c in self.cmds :
-            if b.startswith(c + " ") :
-                if state == 0 :
-                    self._c = com_filter(os.listdir(text or "."), text)
-                if state < len(self._c) :
-                    return self._c[state]
-                else :
-                    return None
-
         if state == 0 :
-            self._c = com_filter(self.cmds, text)
-        if state < len(self._c) :
-            return self._c[state] + " "
-        else :
+            # i feel like get_line_buffer() is broken, it holds previous
+            # buffer when input is empty yet.
+            self._buf = readline.get_line_buffer()
+            print("buf:" + self._buf)
+            if self._buf == "" :
+                return None
+            self._arg = shsplit(self._buf)
+            if len(self._arg) == 0 :
+                curdir = self.env.cwd
+            else :
+                curdir = self.env.get_dir(self._arg[-1])
+            child, current = self.env.get_current_list(curdir or self.env.cwd)
+            self._cand = com_filter(current, text)
+
+        try :
+            return self._cand[state]
+        except IndexError :
             return None
 
     def _parse_input(self, input) :

@@ -3,32 +3,28 @@
 from .tgz import TGZ
 
 class Execute() :
+    hr = None
     def __init__(self, env) :
         if env.file.endswith(".tar.gz") :
             self.hr = TGZ(env.file)    # handler
-        env.list = self.hr.get_list()
+        if self.hr :
+            env.list = self.hr.get_list()
+            env.update_list()
+        self.env = env
         return
 
-    def run(self, env, cmds) :
+    def run(self, cmds) :
         if cmds[0] == "cd" :
-            self.run_cd(env, cmds)
+            self.run_cd(cmds)
         elif cmds[0] == "ls" :
-            self.run_ls(env, cmds)
+            self.run_ls(cmds)
         return
 
-    def run_cd(self, env, cmds) :
-        newd = env.cwd + cmds[1]
-        if not newd.endswith("/") :
-            newd = newd + "/"
-        if newd in env.list :
-            env.cwd = newd
+    def run_cd(self, cmds) :
+        if self.env.set_dir(cmds[1]) == None :
+            print("ls: dir %s not found." % cmds[1])
         return
 
-    def run_ls(self, env, cmds) :
-        child = [e.replace(env.cwd, "", 1) for e in env.list \
-                     if e.startswith(env.cwd)]
-        current = [e for e in child if \
-                       (not "/" in e and e != "") or \
-                       (e.count("/") == 1 and e.endswith("/"))]
-        for e in current :
+    def run_ls(self, cmds) :
+        for e in self.env.current :
             print(e)
