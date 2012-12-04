@@ -22,6 +22,7 @@ class Prompt() :
     def __init__(self, env) :
         self.env = env
         if readline :
+            readline.set_completer_delims(" ")
             readline.set_completer(self._completer)
         return
 
@@ -48,7 +49,8 @@ class Prompt() :
         if state == 0 :
             # i feel like get_line_buffer() is broken, it holds previous
             # buffer when input is empty yet.
-            buf = readline.get_line_buffer()
+            endidx = readline.get_endidx()
+            buf = readline.get_line_buffer()[:endidx]
             if buf == "" :
                 self._cand = []
             else :
