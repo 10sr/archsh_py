@@ -3,6 +3,13 @@
 from posixpath import normpath, join
 from subprocess import call
 
+try :                           # this module is available only after 3.3
+    from shutil import get_terminal_size
+except ImportError :
+    from os import getenv
+    def get_terminal_size() :
+        return (getenv("COLUMNS"), getenv("LINES"))
+
 from .tgz import TGZ
 
 class Execute() :
@@ -29,8 +36,28 @@ class Execute() :
         return
 
     def run_ls(self, args) :
-        for e in self.env.current :
-            print(e)
+        size = get_terminal_size()
+        col = int(size[0])
+        m = max([len(e) for e in self.env.current]) + 1
+        num = len(self.env.current)
+        items = [(f + " " * m)[:m] for f in self.env.current]
+        qt, rem = divmod(num * m, col)
+        if rem == 0 :
+            rows = qt
+        else :
+            rows = qt + 1
+
+        lines = [""] * rows     # what is the best way to make list?
+        i = 0
+        for f in items :
+            lines[i] += f
+            if i == rows - 1 :
+                i = 0
+            else :
+                i += 1
+
+        for l in lines :
+            print(l)
 
     def run_pager(self, files, program) :
         # should use temp file and open at once?
