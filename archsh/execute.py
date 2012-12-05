@@ -37,7 +37,7 @@ class Execute() :
 
     def run_ls(self, args) :
         size = get_terminal_size()
-        col = int(size[0])
+        col = int(size[0] or 80)
         m = max([len(e) for e in self.env.current]) + 1
         num = len(self.env.current)
         items = [(f + " " * m)[:m] for f in self.env.current]

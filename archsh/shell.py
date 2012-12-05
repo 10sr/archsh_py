@@ -15,7 +15,10 @@ class Shell() :
         return
 
     def main(self) :
-        self.c.cmdloop()
+        if self.x.handler :
+            self.c.cmdloop()
+        else :
+            print("No handler found for %s." % self.e.file)
         return
 
 class Environ() :
