@@ -3,6 +3,8 @@
 from .prompt import ArchCmd
 from .execute import Execute
 
+from os.path import normpath
+
 class Shell() :
     def __init__(self, archname) :
         self.e = Environ(archname)
@@ -29,6 +31,7 @@ class Environ() :
     def set_list(self, list) :
         """Set self.list. This met is meant to be called only once."""
         self.list = ["/" + e for e in list]
+        self.list.append("/")
         return self.list
 
     def update_list(self) :
@@ -60,15 +63,17 @@ class Environ() :
     def get_dir(self, newpath) :
         """Calculate new path and return absolute path or None if nonexist.
 
+        This method do not overwrite any member.
         NEWPATH can be absolute or relative."""
         if newpath == "" :
-            return self.cwd
+            return "/"
 
         if newpath.startswith("/") : # absolute
             newd = newpath
         else :
             newd = self.cwd + newpath
 
+        newd = normpath(newd)   # remove "." or ".."
         if not newd.endswith("/") :
             newd = newd + "/"
         if newd in self.list :
