@@ -34,6 +34,12 @@ class ArchCmd(Cmd) :
         # for example, candidate for "/aaa/bb\ b" must be like ["b", "bb"],
         # not ["bb\ b", "bb\ bb"].
         head, tail = pathsplit(text)
+
+        if tail == "." :
+            return [text + "/", text + "./"]
+        elif tail == ".." :
+            return [text + "/"]
+
         if head == "" :
             adir = self._env.get_dir("./")
         else :
@@ -62,7 +68,7 @@ class ArchCmd(Cmd) :
         return False
 
     def do_exit(self, line) :
-        print("Exit.")
+        print("Bye!.")
         return True
 
     def do_EOF(self, line) :

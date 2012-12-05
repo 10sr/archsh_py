@@ -3,7 +3,7 @@
 from .prompt import ArchCmd
 from .execute import Execute
 
-from os.path import normpath
+from posixpath import normpath, join
 
 class Shell() :
     def __init__(self, archname) :
@@ -42,7 +42,8 @@ class Environ() :
     def get_current_list(self, cwd) :
         """Get list of child and current file. Also used for compl.
 
-        CWD must be absolute path."""
+        CWD must be absolute path.
+        This method does not overwrite any member."""
         child = [e.replace(cwd, "", 1) for e in self.list \
                      if e.startswith(cwd)]
         current = [e for e in child if \
@@ -60,22 +61,24 @@ class Environ() :
             self.update_list()
         return d
 
-    def get_dir(self, newpath) :
+    def get_dir(self, newpath=None) :
         """Calculate new path and return absolute path or None if nonexist.
 
         This method do not overwrite any member.
-        NEWPATH can be absolute or relative."""
-        if newpath == "" :
+        NEWPATH can be absolute or relative.
+        If NEWPATH is empty string or None, it returns root directory."""
+        if newpath == "" or newpath == None :
             return "/"
 
-        if newpath.startswith("/") : # absolute
-            newd = newpath
-        else :
-            newd = self.cwd + newpath
-
+        # if newpath.startswith("/") : # absolute
+        #     newd = newpath
+        # else :
+        #     newd = self.cwd + newpath
+        newd = join(self.cwd, newpath)
         newd = normpath(newd)   # remove "." or ".."
         if not newd.endswith("/") :
             newd = newd + "/"
+
         if newd in self.list :
             return newd
         else :
