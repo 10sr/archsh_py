@@ -29,6 +29,22 @@ class ArchCmd(Cmd) :
         return
 
     def completedefault(self, text, line, begidx, endidx) :
+        cand = self._complete(text)
+        if len(cand) == 1 and not cand[0].endswith("/") :
+            return [cand[0] + " "]
+        else :
+            return cand
+
+    def complete_cd(self, text, line, begidx, endidx) :
+        args = shsplit(line)
+        if len(args) >= 3 :
+            return []
+        else :
+            cand = self._complete(text)
+            cand = [e for e in cand if e.endswith("/")]
+            return cand
+
+    def _complete(self, text) :
         # text is "" even when, for example, "cd dir\ " is written to line.
         # i ignore escaped whitespace because in that case candidates go mess.
         # for example, candidate for "/aaa/bb\ b" must be like ["b", "bb"],
@@ -51,15 +67,6 @@ class ArchCmd(Cmd) :
             head = head + "/"
         cand = [(head + e) for e in current if e.startswith(tail)]
         return cand
-
-    def complete_cd(self, text, line, begidx, endidx) :
-        args = shsplit(line)
-        if len(args) >= 3 :
-            return []
-        else :
-            cand = self.completedefault(text, line, begidx, endidx)
-            cand = [e for e in cand if e.endswith("/")]
-            return cand
 
     def postcmd(self, stop, line) :
         self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
