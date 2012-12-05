@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 editor = {
-    "vi" : "vi"
+    "vi" : "vi",
     }
 
 pager = {
-    "less" : "less"
+    "less" : "less",
+    "cat" : "cat",
     }
 
 import fnmatch                  # maybe i can use fileter
@@ -29,9 +30,7 @@ class ArchCmd(Cmd) :
     def __init__(self, env, execute) :
         self._env = env
         self._exec = execute
-        # if readline :
-        #     readline.set_completer_delims(" ")
-        #     readline.set_completer(self._completer)
+
         Cmd.__init__(self)
         self.intro = "Archsh command line for archive"
         self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
@@ -76,13 +75,38 @@ class ArchCmd(Cmd) :
     def emptyline(self) :
         return False
 
+    # def default(self, line) :
+    #     print(line)
+    #     return False
+
     def do_exit(self, line) :
+        """Exit archsh shell."""
         print("Bye!.")
         return True
 
-    def do_EOF(self, line) :
-        print("")
-        return self.do_exit(line)
+    do_EOF = do_exit
+    # def do_EOF(self, line) :
+    #     """Exit archsh shell."""
+    #     print("")
+    #     return self.do_exit(line)
+
+    def do_pager(self, line) :
+        """pager: View file contents with pager."""
+        args = self._parse_line(line)
+        program = self.lastcmd.split()[0]
+        print(program)
+        self._exec.run_pager(args, program)
+        return
+
+    do_less = do_pager
+
+    def do_edit(self, line) :
+        """editor: Edit file."""
+        args = self._parse_line(line)
+        program = self.lastcmd.split()[0]
+        print(program)
+        self._exec.run_editor(args, program)
+        return
 
     def do_cd(self, line) :
         """cd: Change current directory."""
@@ -103,6 +127,7 @@ class ArchCmd(Cmd) :
         return False
 
     def do_shell(self, line) :
+        """shell: Run external shell command."""
         call(line, shell=True)
         return False
 

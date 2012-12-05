@@ -13,3 +13,9 @@ class TGZ() :
         lst = output(["tar", "-tzf", self.file]).decode().split("\n")
         self.list = [e for e in lst if e != ""]
         return self.list
+
+    def cat_file(self, *files) :
+        return None
+
+    def edit_file(self, *files) :
+        return None

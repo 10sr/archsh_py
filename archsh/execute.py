@@ -33,3 +33,9 @@ class Execute() :
     def run_ls(self, args) :
         for e in self.env.current :
             print(e)
+
+    def run_pager(self, files, program) :
+        return
+
+    def run_editor(self, files, program) :
+        return
