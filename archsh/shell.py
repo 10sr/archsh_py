@@ -53,7 +53,7 @@ class Environ() :
                        (e.count("/") == 1 and e.endswith("/"))]
         return (child, current)
 
-    def set_dir(self, newpath) :
+    def set_dir(self, newpath=None) :
         """Set self.cwd. Return new dir or None if failed."""
         d = self.get_dir(newpath)
         if d != None :

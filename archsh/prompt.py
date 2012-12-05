@@ -66,6 +66,13 @@ class ArchCmd(Cmd) :
         if head != "" :
             head = head + "/"
         cand = [(head + e) for e in current if e.startswith(tail)]
+
+        if tail == "." :
+            cand.insert(0, "../")
+            cand.insert(0, "./")
+        elif tail == ".." :
+            cand.insert(0, "../")
+
         return cand
 
     def postcmd(self, stop, line) :
@@ -81,7 +88,7 @@ class ArchCmd(Cmd) :
 
     def do_exit(self, line) :
         """Exit archsh shell."""
-        print("Bye!.")
+        print("Bye!")
         return True
 
     do_EOF = do_exit
