@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
 
-editor = {
-    "vi" : "vi",
-    }
-
-pager = {
-    "less" : "less",
-    "cat" : "cat",
-    }
-
 import fnmatch                  # maybe i can use fileter
 from shlex import split as shsplit
 from posixpath import split as pathsplit
@@ -31,9 +22,10 @@ class ArchCmd(Cmd) :
         self._env = env
         self._exec = execute
 
-        Cmd.__init__(self)
         self.intro = "Archsh command line for archive"
         self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
+        Cmd.__init__(self)
+
         return
 
     def completedefault(self, text, line, begidx, endidx) :
@@ -43,6 +35,7 @@ class ArchCmd(Cmd) :
         # not ["bb\ b", "bb\ bb"].
         head, tail = pathsplit(text)
 
+        # not works when dir contains files start with "."
         if tail == "." :
             return [text + "/", text + "./"]
         elif tail == ".." :
@@ -90,22 +83,16 @@ class ArchCmd(Cmd) :
     #     print("")
     #     return self.do_exit(line)
 
-    def do_pager(self, line) :
-        """pager: View file contents with pager."""
+    def do_less(self, line) :
+        """less: View file contents with less."""
         args = self._parse_line(line)
-        program = self.lastcmd.split()[0]
-        print(program)
-        self._exec.run_pager(args, program)
+        self._exec.run_pager(args, "less")
         return
 
-    do_less = do_pager
-
-    def do_edit(self, line) :
-        """editor: Edit file."""
+    def do_vi(self, line) :
+        """vi: Edit file."""
         args = self._parse_line(line)
-        program = self.lastcmd.split()[0]
-        print(program)
-        self._exec.run_editor(args, program)
+        self._exec.run_editor(args, "vi")
         return
 
     def do_cd(self, line) :

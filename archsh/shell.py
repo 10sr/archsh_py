@@ -35,7 +35,7 @@ class Environ() :
         return self.list
 
     def update_list(self) :
-        """Update self.child and self.current accroding to self.cwd."""
+        """Update self.child and self.current accroding to self.cwd ."""
         self.child, self.current = self.get_current_list(self.cwd)
         return
 
@@ -77,6 +77,7 @@ class Environ() :
         newd = join(self.cwd, newpath)
         newd = normpath(newd)   # remove "." or ".."
         if not newd.endswith("/") :
+            # usually normpath strips last "/"
             newd = newd + "/"
 
         if newd in self.list :
