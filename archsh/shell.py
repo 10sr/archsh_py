@@ -1,35 +1,35 @@
 #!/usr/bin/env python3
 
-from .prompt import Prompt
+from .prompt import ArchCmd
 from .execute import Execute
 
 class Shell() :
     def __init__(self, archname) :
         self.e = Environ(archname)
-        self.p = Prompt(self.e)
         self.x = Execute(self.e)
+        self.c = ArchCmd(self.e, self.x)
         # for e in self.e.list :
         #     print(e)
         return
 
     def main(self) :
-        while True :
-            self.cmds = self.p.input()
-            if self.cmds != None:
-                self.x.run(self.cmds)
-            else :
-                break
+        self.c.cmdloop()
         return
 
 class Environ() :
     file = ""                   # filename of archive
-    cwd = ""                    # cwd without leading "/"
-    list = []                   # all file list, do not update while ro
-    child = []                  # list of file under current dir
-    current = []                # file list current dir contains
+    cwd = "/"                    # cwd starts and ends with "/"
+    list = []                   # all file list with leading "/", ro
+    child = []                  # list of file under current dir, relative
+    current = []                # file list current dir contains, relative
     def __init__(self, archname) :
         self.file = archname
         return
+
+    def set_list(self, list) :
+        """Set self.list. This met is meant to be called only once."""
+        self.list = ["/" + e for e in list]
+        return self.list
 
     def update_list(self) :
         """Update self.child and self.current accroding to self.cwd."""
@@ -37,11 +37,15 @@ class Environ() :
         return
 
     def get_current_list(self, cwd) :
-        """Get list of child and current file. Also used for compl."""
+        """Get list of child and current file. Also used for compl.
+
+        CWD must be absolute path."""
         child = [e.replace(cwd, "", 1) for e in self.list \
                      if e.startswith(cwd)]
         current = [e for e in child if \
+                       # file
                        (not "/" in e and e != "") or \
+                       # directory
                        (e.count("/") == 1 and e.endswith("/"))]
         return (child, current)
 
@@ -54,14 +58,14 @@ class Environ() :
         return d
 
     def get_dir(self, newpath) :
-        """Calculate new path and return absolute path or None if nonexist."""
-        if newpath == "/" :
-            return ""
-        elif newpath == "" :
+        """Calculate new path and return absolute path or None if nonexist.
+
+        NEWPATH can be absolute or relative."""
+        if newpath == "" :
             return self.cwd
 
         if newpath.startswith("/") : # absolute
-            newd = newpath[1:]
+            newd = newpath
         else :
             newd = self.cwd + newpath
 

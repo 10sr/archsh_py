@@ -8,26 +8,28 @@ class Execute() :
         if env.file.endswith(".tar.gz") :
             self.hr = TGZ(env.file)    # handler
         if self.hr :
-            env.list = self.hr.get_list()
+            env.set_list(self.hr.get_list())
             env.update_list()
         self.env = env
         return
 
-    def run(self, cmds) :
-        print(cmds)
-        if len(cmds) == 0 :
+    def run(self, args) :
+        print(args)
+        if len(args) == 0 :
             return
-        elif cmds[0] == "cd" :
-            self.run_cd(cmds)
-        elif cmds[0] == "ls" :
-            self.run_ls(cmds)
+        elif args[0] == "cd" :
+            self.run_cd(args[1:])
+        elif args[0] == "ls" :
+            self.run_ls(args[1:])
         return
 
-    def run_cd(self, cmds) :
-        if self.env.set_dir(cmds[1]) == None :
-            print("ls: dir %s not found." % cmds[1])
+    def run_cd(self, args) :
+        if len(args) == 0 :
+            self.env.set_dir("/")
+        elif self.env.set_dir(args[0]) == None :
+            print("cd: dir %s not found." % args[0])
         return
 
-    def run_ls(self, cmds) :
+    def run_ls(self, args) :
         for e in self.env.current :
             print(e)
