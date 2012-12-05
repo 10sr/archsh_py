@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 
+editor = {
+    "vi" : "vi"
+    }
+
+pager = {
+    "less" : "less"
+    }
+
 import fnmatch                  # maybe i can use fileter
 from shlex import split as shsplit
-from os.path import split as pathsplit
+from posixpath import split as pathsplit
 from cmd import Cmd
+from subprocess import call
 
 try:
     import readline
@@ -91,6 +100,10 @@ class ArchCmd(Cmd) :
     def do_pwd(self, line) :
         """pwd: Print current working directory."""
         print(self._env.cwd)
+        return False
+
+    def do_shell(self, line) :
+        call(line, shell=True)
         return False
 
     def _parse_line(self, line) :
