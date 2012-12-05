@@ -2,7 +2,7 @@
 
 # handle gzip (.tar.gz) file
 
-from subprocess import check_output as output
+from subprocess import check_output, Popen, PIPE, STDOUT
 
 class TGZ() :
     def __init__(self, file) :
@@ -10,12 +10,18 @@ class TGZ() :
         return
 
     def get_list(self) :
-        lst = output(["tar", "-tzf", self.file]).decode().split("\n")
+        lst = check_output(["tar", "-tzf", self.file]).decode().split("\n")
         self.list = [e for e in lst if e != ""]
         return self.list
 
-    def cat_file(self, *files) :
-        return None
+    def cat_files(self, *files) :
+        """Return list of tuple (file, output), where output is file object."""
+        r = []
+        for f in files :
+            p = Popen(["tar", "-xf", self.file, "-O", f],
+                      stdout=PIPE, stderr=STDOUT)
+            r.append((f, p.stdout))
+        return r
 
-    def edit_file(self, *files) :
+    def edit_files(self, *files) :
         return None

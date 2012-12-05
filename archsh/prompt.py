@@ -87,13 +87,19 @@ class ArchCmd(Cmd) :
         """less: View file contents with less."""
         args = self._parse_line(line)
         self._exec.run_pager(args, "less")
-        return
+        return False
+
+    def do_cat(self, line) :
+        """cat: cat file contents."""
+        args = self._parse_line(line)
+        self._exec.run_pager(args, "cat")
+        return False
 
     def do_vi(self, line) :
         """vi: Edit file."""
         args = self._parse_line(line)
         self._exec.run_editor(args, "vi")
-        return
+        return False
 
     def do_cd(self, line) :
         """cd: Change current directory."""
