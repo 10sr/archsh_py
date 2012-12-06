@@ -20,12 +20,12 @@ except ImportError :
 
 class Execute() :
     handler = None
+    outdir = None
 
     def __init__(self, env) :
         # TemporaryDirectory() also can be used
         self.tmpdir = mkdtemp(prefix="archsh-")
 
-        suffix = ""
         for h in handlers :
             for s in h.suffixes :
                 if env.find_suffix(s) :
@@ -80,9 +80,11 @@ class Execute() :
     def run_get(self, files, path=False, force=False) :
         afiles = self.conv_path(files)
         if path :
-            dst = mkdtemp(prefix=self.env.basename + "-", dir=".")
+            if not self.outdir :
+                self.outdir = mkdtemp(prefix=self.env.basename + "-", dir=".")
             for e in self.handler.open_files(*afiles) :
-                renames(e[1], osjoin(dst, e[0]))
+                renames(e[1], osjoin(self.outdir, e[0]))
+                print("'{}' -> '{}'".format(e[0], osjoin(self.outdir, e[0])))
         else :
             for e in self.handler.open_files(*afiles) :
                 dst = osjoin(".", osbasename(e[1]))
@@ -90,8 +92,9 @@ class Execute() :
                     print("%s already exist. Consider using getd." % dst)
                 else :
                     rename(e[1], dst)
+                    print("'{}' -> '{}'".format(e[0], dst))
         try :
-            makedirs(self.tmpdir)
+            makedirs(self.tmpdir, 0o700)
         except OSError :
             pass
         return
