@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 handlers = []
-from .tar import TAR, TGZ
-handlers.extend([TAR, TGZ])
+from .tar import TAR, TGZ, TBZ, TXZ
+handlers.extend([TAR, TGZ, TBZ, TXZ])
 
 from posixpath import normpath, join
 from subprocess import call

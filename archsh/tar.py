@@ -34,3 +34,13 @@ class TGZ(TAR) :
     suffixes = [".tar.gz", ".tgz"]
     list_command = ["tar", "-tzf"]
     cat_command = ["tar", "-xzOf"]
+
+class TBZ(TAR) :
+    suffixes = [".tar.bz2", ".tbz"]
+    list_command = ["tar", "-tjf"]
+    cat_command = ["tar", "-xjOf"]
+
+class TXZ(TAR) :
+    suffixes = [".tar.xz", ".txz"]
+    list_command = ["tar", "-tJf"]
+    cat_command = ["tar", "-xJOf"]
