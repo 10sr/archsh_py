@@ -77,16 +77,11 @@ class Execute() :
         return
 
     def run_get(self, files, path=False, force=False) :
-        # any way to generate new name?
         afiles = self.conv_path(files)
         if path :
-            self.handler.open_files(*afiles)
-            dst = osjoin(".", self.env.basename)
-            if access(dst, F_OK) and force == False :
-                print("%s already exist." % dst)
-            else :
-                renames(self.tmpdir, osjoin(".", self.env.basename))
-                mkdir(self.tmpdir)
+            dst = mkdtemp(prefix=self.env.basename + ".", dir=".")
+            for e in self.handler.open_files(*afiles) :
+                renames(e[1], osjoin(dst, e[0]))
         else :
             for e in self.handler.open_files(*afiles) :
                 dst = osjoin(".", osbasename(e[1]))
