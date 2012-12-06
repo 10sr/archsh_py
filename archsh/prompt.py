@@ -99,9 +99,12 @@ class ArchCmd(Cmd) :
     def emptyline(self) :
         return False
 
-    # def default(self, line) :
-    #     print(line)
-    #     return False
+    def default(self, line) :
+        if line.startswith("_debug") :
+            print(line)
+            print("file:%s,suffix:%s,basename:%s" % \
+                      (self._env.file, self._env.suffix, self._env.basename))
+        return False
 
     def do_exit(self, line) :
         """Exit archsh shell."""
