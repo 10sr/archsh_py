@@ -18,7 +18,7 @@ class Shell() :
         if self.x.handler :
             self.c.cmdloop()
         else :
-            print("No handler found for %s." % self.e.file)
+            print("No handler found for {}.".format(self.e.file))
         return
 
 class Environ() :

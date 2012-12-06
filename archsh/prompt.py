@@ -31,7 +31,7 @@ class ArchCmd(Cmd) :
 
         self.intro = "Archsh command line for archive"
         try :
-            self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
+            self.prompt = "{}:{} $ ".format(self._env.file, self._env.cwd)
         except AttributeError :
             pass
 
@@ -93,7 +93,7 @@ class ArchCmd(Cmd) :
         return cand
 
     def postcmd(self, stop, line) :
-        self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
+        self.prompt = "{}:{} $ ".format(self._env.file, self._env.cwd)
         return stop
 
     def emptyline(self) :

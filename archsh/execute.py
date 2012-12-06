@@ -46,7 +46,7 @@ class Execute() :
         if len(args) == 0 :
             self.env.set_dir()
         elif self.env.set_dir(args[0]) == None :
-            print("cd: dir %s not found." % args[0])
+            print("cd: dir {} not found.".format(args[0]))
         return
 
     def run_ls(self, args) :
@@ -94,7 +94,8 @@ class Execute() :
                 for e in self.handler.open_files(afiles, tempdir) :
                     dst = osjoin(".", osbasename(e[1]))
                     if access(dst, F_OK) and force == False :
-                        print("%s already exist. Consider using getd." % dst)
+                        print("'{}' already exist. Consider using getd.".\
+                                  format(dst))
                     else :
                         rename(e[1], dst)
                         print("'{}' -> '{}'".format(e[0], dst))
