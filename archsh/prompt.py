@@ -13,6 +13,12 @@ except ImportError:
     print("Module readline not available.")
     readline = None
 else:
+    # dirty fix
+    # When using osx, delimitter "/" not works and use " " splitted string
+    # for completion. On Linux "/" of course can be used for delim, but it
+    # breaks the function of ArchCmd._completer() so disable using "/" as a
+    # delimitter.
+    readline.set_completer_delims(" ")
     if "libedit" in readline.__doc__ :
         readline.parse_and_bind("bind ^I rl_complete")
     else :
