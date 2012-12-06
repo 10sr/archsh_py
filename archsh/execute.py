@@ -6,9 +6,9 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 
 from posixpath import normpath, join
 from subprocess import call
-from os.path import join as osjoin, basename as osbasename
+from os.path import join as osjoin, basename as osbasename, dirname
 from os import rename, renames, mkdir, makedirs, access, F_OK
-from tempfile import mkdtemp
+from tempfile import mkdtemp, TemporaryDirectory as TempDir
 from shutil import rmtree
 
 try :                           # this module is available only after 3.3
@@ -24,12 +24,10 @@ class Execute() :
 
     def __init__(self, env) :
         # TemporaryDirectory() also can be used
-        self.tmpdir = mkdtemp(prefix="archsh-")
-
         for h in handlers :
             for s in h.suffixes :
                 if env.find_suffix(s) :
-                    self.handler = h(env.file, self.tmpdir)
+                    self.handler = h(env.file)
                     break
             if self.handler :
                 break
@@ -78,31 +76,34 @@ class Execute() :
         return
 
     def run_get(self, files, path=False, force=False) :
-        afiles = self.conv_path(files)
-        if path :
-            if not self.outdir :
-                self.outdir = mkdtemp(prefix=self.env.basename + "-", dir=".")
-            for e in self.handler.open_files(*afiles) :
-                renames(e[1], osjoin(self.outdir, e[0]))
-                print("'{}' -> '{}'".format(e[0], osjoin(self.outdir, e[0])))
-        else :
-            for e in self.handler.open_files(*afiles) :
-                dst = osjoin(".", osbasename(e[1]))
-                if access(dst, F_OK) and force == False :
-                    print("%s already exist. Consider using getd." % dst)
-                else :
+        with TempDir(prefix="archsh-") as tempdir :
+            afiles = self.conv_path(files)
+            if path :
+                if not self.outdir :
+                    self.outdir = mkdtemp(prefix=self.env.basename + "-",
+                                          dir=".")
+                for e in self.handler.open_files(afiles, tempdir) :
+                    dst = osjoin(self.outdir, e[0])
+                    try :
+                        makedirs(dirname(dst))
+                    except OSError :
+                        pass
                     rename(e[1], dst)
                     print("'{}' -> '{}'".format(e[0], dst))
-        try :
-            makedirs(self.tmpdir, 0o700)
-        except OSError :
-            pass
+            else :
+                for e in self.handler.open_files(afiles, tempdir) :
+                    dst = osjoin(".", osbasename(e[1]))
+                    if access(dst, F_OK) and force == False :
+                        print("%s already exist. Consider using getd." % dst)
+                    else :
+                        rename(e[1], dst)
+                        print("'{}' -> '{}'".format(e[0], dst))
         return
 
     def run_pager(self, files, program) :
         # should use temp file and open at once?
         afiles = self.conv_path(files)
-        for e in self.handler.cat_files(*afiles) :
+        for e in self.handler.cat_files(afiles) :
             if program == "cat" :
                 print(e[1].read())
             else :
@@ -111,12 +112,4 @@ class Execute() :
         return
 
     def run_editor(self, files, program) :
-        return
-
-    def close(self) :
-        """Delete temporary directory."""
-        try :
-            rmtree(self.tmpdir)
-        except OSError :
-            pass
         return

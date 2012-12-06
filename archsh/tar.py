@@ -8,16 +8,15 @@ from os.path import join as osjoin
 
 class ArchHandler() :
     suffixes = []
-    def __init__(self, file, tmpdir) :
+    def __init__(self, file) :
         self.file = file
-        self.tmpdir = tmpdir
         return
     def get_list(self) :
         return []
-    def cat_files(self, *files) :
+    def cat_files(self, files) :
         """Return list of tuple (file, output), where output is file object."""
         return []
-    def open_files(self, *files) :
+    def open_files(self, files, tempdir) :
         """Return list of tuple (file, path), path is where the file created."""
         return []
 
@@ -32,7 +31,7 @@ class TAR(ArchHandler) :
         self.list = [e for e in lst if e != ""]
         return self.list
 
-    def cat_files(self, *files) :
+    def cat_files(self, files) :
         r = []
         for f in files :
             p = Popen(self.cat_command + [self.file, f],
@@ -40,10 +39,10 @@ class TAR(ArchHandler) :
             r.append((f, p.stdout))
         return r
 
-    def open_files(self, *files) :
+    def open_files(self, files, tempdir) :
         lfiles = list(files)
-        call(self.extract_command + [self.file, "-C", self.tmpdir] + lfiles)
-        return [(f, osjoin(self.tmpdir, f)) for f in files]
+        call(self.extract_command + [self.file, "-C", tempdir] + lfiles)
+        return [(f, osjoin(tempdir, f)) for f in files]
 
 class TGZ(TAR) :
     suffixes = [".tar.gz", ".tgz"]
