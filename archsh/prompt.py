@@ -104,7 +104,10 @@ class ArchCmd(Cmd) :
             print(line)
             print("file:%s,suffix:%s,basename:%s" % \
                       (self._env.file, self._env.suffix, self._env.basename))
-        return False
+            print(__func__)
+            return False
+        else :
+            return Cmd.default(self, line)
 
     def do_exit(self, line) :
         """Exit archsh shell."""
