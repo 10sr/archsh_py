@@ -42,7 +42,6 @@ class TAR(ArchHandler) :
 
     def open_files(self, *files) :
         lfiles = list(files)
-        print(self.tmpdir)
         call(self.extract_command + [self.file, "-C", self.tmpdir] + lfiles)
         return [(f, osjoin(self.tmpdir, f)) for f in files]
 

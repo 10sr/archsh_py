@@ -102,9 +102,9 @@ class ArchCmd(Cmd) :
     def default(self, line) :
         if line.startswith("_debug") :
             print(line)
-            print("file:%s,suffix:%s,basename:%s" % \
-                      (self._env.file, self._env.suffix, self._env.basename))
-            print(__func__)
+            print("file:{},suffix:{},basename:{}".format(
+                    self._env.file, self._env.suffix, self._env.basename))
+            print("tmpdir:{}".format(self._exec.tmpdir))
             return False
         else :
             return Cmd.default(self, line)
