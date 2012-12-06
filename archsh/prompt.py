@@ -114,6 +114,21 @@ class ArchCmd(Cmd) :
     #     print("")
     #     return self.do_exit(line)
 
+    def do_get(self, line) :
+        """Extract file from archive."""
+        args = self._parse_line(line)
+        self._exec.run_get(args, False)
+        return False
+
+    def do_getd(self, line) :
+        """Extract file from archive with path."""
+        args = self._parse_line(line)
+        self._exec.run_get(args, True)
+        return False
+
+    def do_put(self, line) :
+        return False
+
     def call_pager(self, line) :
         print(globals()["dict"])
 

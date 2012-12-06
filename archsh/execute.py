@@ -6,6 +6,8 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 
 from posixpath import normpath, join
 from subprocess import call
+from os.path import join as osjoin, basename as osbasename
+from os import rename, access, F_OK
 
 try :                           # this module is available only after 3.3
     from shutil import get_terminal_size
@@ -67,6 +69,21 @@ class Execute() :
 
         for l in lines :
             print(l)
+
+        return
+
+    def run_get(self, files, path=False, force=False) :
+        afiles = self.conv_path(files)
+        if path :
+            pass
+        else :
+            for e in self.handler.open_files(*afiles) :
+                dst = osjoin(".", osbasename(e[1]))
+                if access(dst, F_OK) and force == False :
+                    print("%s already exist. Consider using getd." % dst)
+                else :
+                    rename(e[1], dst)
+        return
 
     def run_pager(self, files, program) :
         # should use temp file and open at once?

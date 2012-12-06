@@ -1,17 +1,37 @@
 #!/usr/bin/env python3
 
-# handle gzip (.tar.gz) file
+# handle tar files
 
-from subprocess import check_output, Popen, PIPE, STDOUT
+from subprocess import call, check_output, Popen, PIPE, STDOUT
+from os import getenv, getpid
+from shutil import rmtree
+from os.path import join as osjoin
+from tempfile import mkdtemp
 
-class TAR() :
+class ArchHandler() :
+    suffixes = []
+    def __init__(self, file) :
+        self.file = file
+        self.tmpdir = mkdtemp(prefix="archsh-")
+        return
+    def get_list(self) :
+        return []
+    def cat_files(self, *files) :
+        """Return list of tuple (file, output), where output is file object."""
+        return []
+    def open_files(self, *files) :
+        """Return list of tuple (file, path), path is where the file created."""
+        return []
+    def close(self) :
+        """Delete temporary directory."""
+        rmtree(self.tmpdir)
+        return
+
+class TAR(ArchHandler) :
     suffixes = [".tar"]
     list_command = ["tar", "-tf"]
     cat_command = ["tar", "-xOf"]
-
-    def __init__(self, file) :
-        self.file = file
-        return
+    extract_command = ["tar", "-xf"]
 
     def get_list(self) :
         lst = check_output(self.list_command + [self.file]).decode().split("\n")
@@ -19,16 +39,18 @@ class TAR() :
         return self.list
 
     def cat_files(self, *files) :
-        """Return list of tuple (file, output), where output is file object."""
         r = []
         for f in files :
-            p = Popen(self.cat_command + [self.file] + [f],
+            p = Popen(self.cat_command + [self.file, f],
                       stdout=PIPE, stderr=STDOUT)
             r.append((f, p.stdout))
         return r
 
     def open_files(self, *files) :
-        return None
+        lfiles = list(files)
+        print(self.tmpdir)
+        call(self.extract_command + [self.file, "-C", self.tmpdir] + lfiles)
+        return [(f, osjoin(self.tmpdir, f)) for f in files]
 
 class TGZ(TAR) :
     suffixes = [".tar.gz", ".tgz"]
