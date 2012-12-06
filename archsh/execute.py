@@ -105,7 +105,8 @@ class Execute() :
         afiles = self.conv_path(files)
         for e in self.handler.cat_files(afiles) :
             if program == "cat" :
-                print(e[1].read())
+                for l in e[1] :
+                    print(l.decode(), end="")
             else :
                 call([program], stdin=e[1])
             e[1].close()
