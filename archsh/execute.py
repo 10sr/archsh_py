@@ -7,7 +7,7 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename
-from os import rename, renames, access, F_OK
+from os import rename, renames, mkdir, access, F_OK
 from tempfile import mkdtemp
 from shutil import rmtree
 
@@ -77,11 +77,16 @@ class Execute() :
         return
 
     def run_get(self, files, path=False, force=False) :
+        # any way to generate new name?
         afiles = self.conv_path(files)
         if path :
-            pass
-            # suffixlen = len(self.env.suffix)
-            # renames(self.tmpdir, osjoin(".", self.env.name))
+            self.handler.open_files(*afiles)
+            dst = osjoin(".", self.env.basename)
+            if access(dst, F_OK) and force == False :
+                print("%s already exist." % dst)
+            else :
+                renames(self.tmpdir, osjoin(".", self.env.basename))
+                mkdir(self.tmpdir)
         else :
             for e in self.handler.open_files(*afiles) :
                 dst = osjoin(".", osbasename(e[1]))
