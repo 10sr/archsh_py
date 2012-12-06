@@ -27,7 +27,7 @@ class TAR() :
             r.append((f, p.stdout))
         return r
 
-    def edit_files(self, *files) :
+    def open_files(self, *files) :
         return None
 
 class TGZ(TAR) :
