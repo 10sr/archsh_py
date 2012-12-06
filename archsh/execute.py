@@ -7,7 +7,7 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename
-from os import rename, renames, mkdir, access, F_OK
+from os import rename, renames, mkdir, makedirs, access, F_OK
 from tempfile import mkdtemp
 from shutil import rmtree
 
@@ -22,6 +22,7 @@ class Execute() :
     handler = None
 
     def __init__(self, env) :
+        # TemporaryDirectory() also can be used
         self.tmpdir = mkdtemp(prefix="archsh-")
 
         suffix = ""
@@ -79,7 +80,7 @@ class Execute() :
     def run_get(self, files, path=False, force=False) :
         afiles = self.conv_path(files)
         if path :
-            dst = mkdtemp(prefix=self.env.basename + ".", dir=".")
+            dst = mkdtemp(prefix=self.env.basename + "-", dir=".")
             for e in self.handler.open_files(*afiles) :
                 renames(e[1], osjoin(dst, e[0]))
         else :
@@ -89,6 +90,10 @@ class Execute() :
                     print("%s already exist. Consider using getd." % dst)
                 else :
                     rename(e[1], dst)
+        try :
+            makedirs(self.tmpdir)
+        except OSError :
+            pass
         return
 
     def run_pager(self, files, program) :
