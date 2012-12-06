@@ -4,13 +4,17 @@
 
 from subprocess import check_output, Popen, PIPE, STDOUT
 
-class TGZ() :
+class TAR() :
+    suffixes = [".tar"]
+    list_command = ["tar", "-tf"]
+    cat_command = ["tar", "-xOf"]
+
     def __init__(self, file) :
         self.file = file
         return
 
     def get_list(self) :
-        lst = check_output(["tar", "-tzf", self.file]).decode().split("\n")
+        lst = check_output(self.list_command + [self.file]).decode().split("\n")
         self.list = [e for e in lst if e != ""]
         return self.list
 
@@ -18,10 +22,15 @@ class TGZ() :
         """Return list of tuple (file, output), where output is file object."""
         r = []
         for f in files :
-            p = Popen(["tar", "-xf", self.file, "-O", f],
+            p = Popen(self.cat_command + [self.file] + [f],
                       stdout=PIPE, stderr=STDOUT)
             r.append((f, p.stdout))
         return r
 
     def edit_files(self, *files) :
         return None
+
+class TGZ(TAR) :
+    suffixes = [".tar.gz", ".tgz"]
+    list_command = ["tar", "-tzf"]
+    cat_command = ["tar", "-xzOf"]

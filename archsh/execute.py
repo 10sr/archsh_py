@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+handlers = []
+from .tar import TAR, TGZ
+handlers.extend([TAR, TGZ])
+
 from posixpath import normpath, join
 from subprocess import call
 
@@ -8,15 +12,20 @@ try :                           # this module is available only after 3.3
 except ImportError :
     from os import getenv
     def get_terminal_size() :
-        return (getenv("COLUMNS"), getenv("LINES"))
-
-from .tgz import TGZ
+        return (getenv("COLUMNS") or "80", getenv("LINES") or "24")
 
 class Execute() :
     handler = None
+
     def __init__(self, env) :
-        if env.file.endswith(".tar.gz") :
-            self.handler = TGZ(env.file)
+        for h in handlers :
+            for s in h.suffixes :
+                if env.file.endswith(s) :
+                    self.handler = h(env.file)
+                    break
+            if self.handler :
+                break
+
         if self.handler :
             env.set_list(self.handler.get_list())
             env.update_list()
@@ -37,7 +46,7 @@ class Execute() :
 
     def run_ls(self, args) :
         size = get_terminal_size()
-        col = int(size[0] or 80)
+        col = int(size[0])
         m = max([len(e) for e in self.env.current]) + 1
         num = len(self.env.current)
         items = [(f + " " * m)[:m] for f in self.env.current]
