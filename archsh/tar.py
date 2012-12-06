@@ -4,7 +4,6 @@
 
 from subprocess import call, check_output, Popen, PIPE, STDOUT
 from os import getenv, getpid
-from shutil import rmtree
 from os.path import join as osjoin
 
 class ArchHandler() :

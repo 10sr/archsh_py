@@ -7,8 +7,9 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename
-from os import rename, access, F_OK
+from os import rename, renames, access, F_OK
 from tempfile import mkdtemp
+from shutil import rmtree
 
 try :                           # this module is available only after 3.3
     from shutil import get_terminal_size
@@ -23,9 +24,10 @@ class Execute() :
     def __init__(self, env) :
         self.tmpdir = mkdtemp(prefix="archsh-")
 
+        suffix = ""
         for h in handlers :
             for s in h.suffixes :
-                if env.file.endswith(s) :
+                if env.find_suffix(s) :
                     self.handler = h(env.file, self.tmpdir)
                     break
             if self.handler :
@@ -33,7 +35,6 @@ class Execute() :
 
         if self.handler :
             env.set_list(self.handler.get_list())
-            env.update_list()
         self.env = env
         return
 
@@ -79,6 +80,8 @@ class Execute() :
         afiles = self.conv_path(files)
         if path :
             pass
+            # suffixlen = len(self.env.suffix)
+            # renames(self.tmpdir, osjoin(".", self.env.name))
         else :
             for e in self.handler.open_files(*afiles) :
                 dst = osjoin(".", osbasename(e[1]))

@@ -24,7 +24,9 @@ class Shell() :
 
 class Environ() :
     file = ""                   # filename of archive
-    cwd = "/"                    # cwd starts and ends with "/"
+    suffix = ""                 # suffix
+    basename = ""               # filename without suffix
+    cwd = "/"                   # cwd starts and ends with "/"
     list = []                   # all file list with leading "/", ro
     child = []                  # list of file under current dir, relative
     current = []                # file list current dir contains, relative
@@ -32,10 +34,22 @@ class Environ() :
         self.file = archname
         return
 
+    def find_suffix(self, suffix) :
+        """Test if suffix is ext of self.filename. If so, set self.suffix,
+        self.basename and return True, otherwise return False."""
+        if self.file.endswith(suffix) :
+            self.suffix = suffix
+            nslen = len(suffix) * (-1)
+            self.basename = self.file[:nslen]
+            return True
+        else :
+            return False
+
     def set_list(self, list) :
         """Set self.list. This met is meant to be called only once."""
         self.list = ["/" + e for e in list]
         self.list.append("/")
+        self.update_list()
         return self.list
 
     def update_list(self) :
