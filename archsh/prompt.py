@@ -25,15 +25,25 @@ else:
         readline.parse_and_bind("tab: complete")
 
 class ArchCmd(Cmd) :
-    def __init__(self, env, execute) :
+    def __init__(self, env=None, execute=None) :
         self._env = env
         self._exec = execute
 
         self.intro = "Archsh command line for archive"
-        self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
-        Cmd.__init__(self)
+        try :
+            self.prompt = "%s:%s $ " % (self._env.file, self._env.cwd)
+        except AttributeError :
+            pass
 
+        setattr(self, "do_more", self.do_less)
+
+        Cmd.__init__(self)
         return
+
+    def get_names(self) :
+        # Originaly this met is defined as 'return dir(self.__class__)',
+        # I cannot figure out why it is such.
+        return dir(self)
 
     def completedefault(self, text, line, begidx, endidx) :
         cand = self._complete(text)
@@ -52,9 +62,9 @@ class ArchCmd(Cmd) :
             return cand
 
     def _complete(self, text) :
-        # text is "" even when, for example, "cd dir\ " is written to line.
-        # i ignore escaped whitespace because in that case candidates go mess.
-        # for example, candidate for "/aaa/bb\ b" must be like ["b", "bb"],
+        # TEXT is "" even when, for example, "cd dir\ " is written to line.
+        # I ignore escaped whitespace because in that case candidates go mess.
+        # For example, candidate for "/aaa/bb\ b" must be like ["b", "bb"],
         # not ["bb\ b", "bb\ bb"].
         head, tail = pathsplit(text)
 
@@ -103,6 +113,9 @@ class ArchCmd(Cmd) :
     #     """Exit archsh shell."""
     #     print("")
     #     return self.do_exit(line)
+
+    def call_pager(self, line) :
+        print(globals()["dict"])
 
     def do_less(self, line) :
         """less: View file contents with less."""
