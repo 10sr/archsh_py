@@ -6,13 +6,12 @@ from subprocess import call, check_output, Popen, PIPE, STDOUT
 from os import getenv, getpid
 from shutil import rmtree
 from os.path import join as osjoin
-from tempfile import mkdtemp
 
 class ArchHandler() :
     suffixes = []
-    def __init__(self, file) :
+    def __init__(self, file, tmpdir) :
         self.file = file
-        self.tmpdir = mkdtemp(prefix="archsh-")
+        self.tmpdir = tmpdir
         return
     def get_list(self) :
         return []
@@ -22,10 +21,6 @@ class ArchHandler() :
     def open_files(self, *files) :
         """Return list of tuple (file, path), path is where the file created."""
         return []
-    def close(self) :
-        """Delete temporary directory."""
-        rmtree(self.tmpdir)
-        return
 
 class TAR(ArchHandler) :
     suffixes = [".tar"]

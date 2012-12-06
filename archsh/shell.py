@@ -17,7 +17,7 @@ class Shell() :
     def main(self) :
         if self.x.handler :
             self.c.cmdloop()
-            self.x.handler.close()
+            self.x.close()
         else :
             print("No handler found for %s." % self.e.file)
         return

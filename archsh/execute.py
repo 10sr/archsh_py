@@ -8,6 +8,7 @@ from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename
 from os import rename, access, F_OK
+from tempfile import mkdtemp
 
 try :                           # this module is available only after 3.3
     from shutil import get_terminal_size
@@ -20,10 +21,12 @@ class Execute() :
     handler = None
 
     def __init__(self, env) :
+        self.tmpdir = mkdtemp(prefix="archsh-")
+
         for h in handlers :
             for s in h.suffixes :
                 if env.file.endswith(s) :
-                    self.handler = h(env.file)
+                    self.handler = h(env.file, self.tmpdir)
                     break
             if self.handler :
                 break
@@ -97,4 +100,9 @@ class Execute() :
         return
 
     def run_editor(self, files, program) :
+        return
+
+    def close(self) :
+        """Delete temporary directory."""
+        rmtree(self.tmpdir)
         return
