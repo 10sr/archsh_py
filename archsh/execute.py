@@ -115,5 +115,8 @@ class Execute() :
 
     def close(self) :
         """Delete temporary directory."""
-        rmtree(self.tmpdir)
+        try :
+            rmtree(self.tmpdir)
+        except OSError :
+            pass
         return
