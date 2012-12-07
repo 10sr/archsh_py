@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import fnmatch                  # maybe i can use fileter
+import fnmatch                  # maybe i can use filter
 from shlex import split as shsplit
 from posixpath import split as pathsplit
 from cmd import Cmd
@@ -67,12 +67,6 @@ class ArchCmd(Cmd) :
         # For example, candidate for "/aaa/bb\ b" must be like ["b", "bb"],
         # not ["bb\ b", "bb\ bb"].
         head, tail = pathsplit(text)
-
-        # not works when dir contains files start with "."
-        if tail == "." :
-            return [text + "/", text + "./"]
-        elif tail == ".." :
-            return [text + "/"]
 
         if head == "" :
             adir = self._env.get_dir("./")

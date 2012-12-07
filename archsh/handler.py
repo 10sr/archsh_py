@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Base class for archive Handelr.
+Base class for archive Handler.
 """
 
 class Handler() :

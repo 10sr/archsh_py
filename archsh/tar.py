@@ -3,7 +3,6 @@
 # handle tar files
 
 from subprocess import call, check_output, Popen, PIPE, STDOUT
-from os import getenv, getpid
 from os.path import join as osjoin
 
 from .handler import Handler

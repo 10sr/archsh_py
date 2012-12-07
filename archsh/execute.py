@@ -7,9 +7,8 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename, dirname
-from os import rename, renames, mkdir, makedirs, access, F_OK
+from os import rename, mkdir, makedirs, access, F_OK
 from tempfile import mkdtemp, TemporaryDirectory as TempDir
-from shutil import rmtree
 
 try :                           # this module is available only after 3.3
     from shutil import get_terminal_size
