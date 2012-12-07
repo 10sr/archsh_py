@@ -5,7 +5,6 @@ from shlex import split as shsplit
 from posixpath import split as pathsplit
 from cmd import Cmd
 from subprocess import call
-from os import getenv
 
 try:
     import readline
