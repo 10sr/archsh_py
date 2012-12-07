@@ -6,21 +6,9 @@ from subprocess import call, check_output, Popen, PIPE, STDOUT
 from os import getenv, getpid
 from os.path import join as osjoin
 
-class ArchHandler() :
-    suffixes = []
-    def __init__(self, file) :
-        self.file = file
-        return
-    def get_list(self) :
-        return []
-    def cat_files(self, files) :
-        """Return list of tuple (file, output), where output is file object."""
-        return []
-    def open_files(self, files, tempdir) :
-        """Return list of tuple (file, path), path is where the file created."""
-        return []
+from .handler import Handler
 
-class TAR(ArchHandler) :
+class TAR(Handler) :
     suffixes = [".tar"]
 
     tar_command = "tar"
