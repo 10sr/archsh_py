@@ -38,7 +38,7 @@ class Execute() :
 
     def conv_path(self, args) :
         """Convert pathes so that they can be passed to handler."""
-        r = [normpath(join(self.env.cwd, f)).lstrip("/") for f in args]
+        r = [normpath(join(self.env.pwd(), f)).lstrip("/") for f in args]
         return r
 
     def run_cd(self, args) :

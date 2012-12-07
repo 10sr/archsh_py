@@ -70,6 +70,13 @@ class Environ() :
                        (e.count("/") == 1 and e.endswith("/"))]
         return (child, current)
 
+    def pwd(self) :
+        """Print current working directory."""
+        if self.cwd == "/" :
+            return "/"
+        else :
+            return self.cwd.rstrip("/")
+
     def set_dir(self, newpath=None) :
         """Set self.cwd. Return new dir or None if failed."""
         d = self.get_dir(newpath)

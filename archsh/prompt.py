@@ -31,7 +31,7 @@ class ArchCmd(Cmd) :
 
         self.intro = "Archsh command line for archive"
         try :
-            self.prompt = "{}:{} $ ".format(self._env.file, self._env.cwd)
+            self.prompt = "{}:{} $ ".format(self._env.file, self._env.pwd())
         except AttributeError :
             pass
 
@@ -87,7 +87,7 @@ class ArchCmd(Cmd) :
         return cand
 
     def postcmd(self, stop, line) :
-        self.prompt = "{}:{} $ ".format(self._env.file, self._env.cwd)
+        self.prompt = "{}:{} $ ".format(self._env.file, self._env.pwd())
         return stop
 
     def emptyline(self) :
@@ -165,7 +165,7 @@ class ArchCmd(Cmd) :
 
     def do_pwd(self, line) :
         """pwd: Print current working directory."""
-        print(self._env.cwd)
+        print(self._env.pwd())
         return False
 
     def do_shell(self, line) :
