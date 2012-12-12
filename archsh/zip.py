@@ -30,6 +30,8 @@ class ZIP(Handler) :
                 pass
             else :
                 r.append(ul[offset:].rstrip("\n"))
+
+        p.stdout.close()
         return r
 
     def cat_files(self, files) :
