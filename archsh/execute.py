@@ -4,6 +4,9 @@ handlers = []
 from .tar import TAR, TGZ, TBZ, TXZ
 handlers.extend([TAR, TGZ, TBZ, TXZ])
 
+from .zip import ZIP
+handlers.append(ZIP)
+
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename, dirname
