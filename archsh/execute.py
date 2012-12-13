@@ -62,11 +62,10 @@ class Execute() :
         col = int(size[0]) - 1
         m = max([len(e) for e in flist]) + 1
         items = [(f + " " * m)[:m] for f in flist]
-        qt, rem = divmod(num * m, col)
-        if rem == 0 :
-            rows = qt
-        else :
-            rows = qt + 1
+        prow, rem = divmod(col, m)
+        rows = num // prow
+        if rem != 0 :
+            rows += 1
 
         lines = [""] * rows     # what is the best way to make list?
         i = 0
