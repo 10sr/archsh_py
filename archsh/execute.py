@@ -52,11 +52,16 @@ class Execute() :
         return
 
     def run_ls(self, args) :
+        flist = self.env.current
+        num = len(flist)
+
+        if num == 0 :
+            return
+
         size = get_terminal_size()
-        col = int(size[0])
-        m = max([len(e) for e in self.env.current]) + 1
-        num = len(self.env.current)
-        items = [(f + " " * m)[:m] for f in self.env.current]
+        col = int(size[0]) - 1
+        m = max([len(e) for e in flist]) + 1
+        items = [(f + " " * m)[:m] for f in flist]
         qt, rem = divmod(num * m, col)
         if rem == 0 :
             rows = qt

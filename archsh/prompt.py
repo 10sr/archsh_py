@@ -29,14 +29,19 @@ class ArchCmd(Cmd) :
         self._exec = execute
 
         self.intro = "Archsh command line for archive"
-        try :
-            self.prompt = "{}:{} $ ".format(self._env.file, self._env.pwd())
-        except AttributeError :
-            pass
+
+        self._set_prompt()
 
         setattr(self, "do_more", self.do_less)
 
         Cmd.__init__(self)
+        return
+
+    def _set_prompt(self) :
+        try :
+            self.prompt = "{}:{} $ ".format(self._env.file, self._env.pwd())
+        except AttributeError :
+            pass
         return
 
     def get_names(self) :
@@ -86,7 +91,7 @@ class ArchCmd(Cmd) :
         return cand
 
     def postcmd(self, stop, line) :
-        self.prompt = "{}:{} $ ".format(self._env.file, self._env.pwd())
+        self._set_prompt()
         return stop
 
     def emptyline(self) :
