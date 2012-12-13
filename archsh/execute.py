@@ -52,7 +52,7 @@ class Execute() :
         return
 
     def run_ls(self, args) :
-        flist = self.env.current
+        flist = sorted(self.env.current)
         num = len(flist)
 
         if num == 0 :
