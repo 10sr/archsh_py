@@ -61,7 +61,7 @@ class Execute() :
         size = get_terminal_size()
         col = int(size[0]) - 1
         m = max([len(e) for e in flist]) + 1
-        items = [(f + " " * m)[:m] for f in flist]
+        items = [f.ljust(m) for f in flist]
         prow, rem = divmod(col, m)
         rows = num // prow
         if rem != 0 :
