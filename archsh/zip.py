@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from subprocess import Popen, PIPE, STDOUT
+from posixpath import split
 from .handler import Handler
 
 class ZIP(Handler) :
@@ -21,7 +22,7 @@ class ZIP(Handler) :
             ul = l.decode()
             if ul.startswith("  Length") :
                 offset = ul.index("Name")
-            elif ul.startswith(" --------") :
+            elif ul.startswith(" --------") or ul.startswith("---------"):
                 if not start :
                     start = True
                 else :
@@ -32,6 +33,13 @@ class ZIP(Handler) :
                 r.append(ul[offset:].rstrip("\n"))
 
         p.stdout.close()
+
+        for l in list(r) :
+            d, b = split(l)
+            d = d + "/"
+            if not d in r :
+                r.append(d)
+
         return r
 
     def cat_files(self, files) :
