@@ -3,7 +3,7 @@
 from .prompt import ArchCmd
 from .execute import Execute
 
-from posixpath import normpath, join
+from posixpath import normpath, join, split
 
 class Shell() :
     def __init__(self, archname) :
@@ -47,6 +47,10 @@ class Environ() :
     def set_list(self, list) :
         """Set self.list. This met is meant to be called only once."""
         self.list = ["/" + e for e in list]
+        for f in self.list :
+            d, b = split(f)
+            if d != "/" and not d + "/" in self.list :
+                self.list.append(d + "/")
         self.list.append("/")
         self.update_list()
         return self.list
