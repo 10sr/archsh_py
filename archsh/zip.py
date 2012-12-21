@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from subprocess import Popen, PIPE, STDOUT
+from subprocess import Popen, PIPE, STDOUT, call
 from posixpath import split
+from os.path import join as osjoin
 from .handler import Handler
 
 class ZIP(Handler) :
@@ -11,6 +12,8 @@ class ZIP(Handler) :
 
     list_option = "-l"
     cat_option = "-p"
+
+    directory_option = "-d"
 
     def get_list(self) :
         offset = 0
@@ -48,3 +51,8 @@ class ZIP(Handler) :
                       stdout=PIPE, stderr=STDOUT)
             yield (f,p.stdout)
         return
+
+    def extract_files(self, files, tempdir) :
+        call([self.unzip_command, self.file] + files + \
+                 [self.directory_option, tempdir])
+        return ((f, osjoin(tempdir, f)) for f in files)

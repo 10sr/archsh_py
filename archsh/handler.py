@@ -10,15 +10,17 @@ class Handler() :
     def __init__(self, file) :
         self.file = file
         return
+
     def get_list(self) :
         return []
+
     def cat_files(self, files) :
-        """Return iterable of tuple (file, output) or None.
+        """Return iterable of tuple (file, output).
 
         output is binary stream."""
-        return None
+        return []
+
     def extract_files(self, files, tempdir) :
-        """Currently this met is not needed for get file."""
         """Return iterable of tuple (file, path) or None.
 
         path is where the file was created.
