@@ -36,13 +36,6 @@ class ZIP(Handler) :
                 r.append(ul[offset:].rstrip("\n"))
 
         p.stdout.close()
-
-        for l in list(r) :
-            d, b = split(l)
-            d = d + "/"
-            if not d in r :
-                r.append(d)
-
         return r
 
     def cat_files(self, files) :
