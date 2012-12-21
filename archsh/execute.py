@@ -10,7 +10,8 @@ handlers.append(ZIP)
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename, dirname
-from os import rename, mkdir, makedirs, access, F_OK
+from os import mkdir, makedirs, access, F_OK
+from shutil import move
 from tempfile import mkdtemp, TemporaryDirectory as TempDir
 
 try :                           # this module is available only after 3.3
@@ -98,7 +99,7 @@ class Execute() :
                     fo.write(arg.read())
                     fo.close()
                 else :
-                    rename(arg, dst)
+                    move(arg, dst)
                 print("'{}' -> '{}'".format(path, dst))
 
             if use_stream :
