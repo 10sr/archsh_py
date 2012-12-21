@@ -82,37 +82,70 @@ class Execute() :
         return
 
     def run_get(self, files, path=False, force=False) :
+
+        def gen_file_from_file(out, dst) :
+            """Gen file from OUT. OUT is path to temporary file."""
+            rename(out, dst)
+            return
+
+        def gen_file_from_stream(out, dst) :
+            """Gen file from """
+            fo = open(dst, mode="wb")
+            fo.write(out.read())
+            fo.close()
+            return
+
+        def make_file(path, dst, func, arg, force=False) :
+            """Create file using FUNC.
+
+            FUNC is gen_file_from_file or gen_file_from_stream.
+            ARG is passed to FUNC as first argument."""
+            try :
+                makedirs(dirname(dst))
+            except OSError :
+                pass
+            if access(dst, F_OK) and force == False :
+                print("'{}' alread exists.".format(dst))
+            else :
+                func(arg, dst)
+                print("'{}' -> '{}'".format(path, dst))
+            return
+
+        def make_out_path(f, d=None) :
+            if d :
+                return osjoin(d, f)
+            else :
+                return osjoin(".", osbasename(f))
+
         afiles = self.conv_path(files)
-        if path :
-            if not self.outdir :
-                self.outdir = mkdtemp(prefix=self.env.basename + "-",
-                                      dir=".")
-            for f, out in self.handler.cat_files(afiles) :
-                dst = osjoin(self.outdir, f)
-                try :
-                    makedirs(dirname(dst))
-                except OSError :
-                    pass
-                if access(dst, F_OK) and force == False :
-                    print("'{}' already extracted.".format(dst))
+        with TempDir(prefix="archsh-") as tempdir :
+            r = self.handler.extract_files(afiles, tempdir)
+            if r :
+                gen_file = gen_file_from_file
+            else :
+                r = self.handler.cat_files(afiles)
+                if r :
+                    gen_file = gen_file_from_stream
                 else :
-                    fo = open(dst, mode="wb")
-                    fo.write(out.read())
-                    fo.close()
-                    print("'{}' -> '{}'".format(f, dst))
-                out.close()
-        else :
-            for f, out in self.handler.cat_files(afiles) :
-                dst = osjoin(".", osbasename(f))
-                if access(dst, F_OK) and force == False :
-                    print("'{}' already exist. Consider using getd.".\
-                              format(dst))
-                else :
-                    fo = open(dst, mode="wb")
-                    fo.write(out.read())
-                    fo.close()
-                    print("'{}' -> '{}'".format(f, dst))
-                out.close()
+                    gen_file = None
+
+            if not gen_file :
+                return
+
+            if path :
+                if not self.outdir :
+                    self.outdir = mkdtemp(prefix=self.env.basename + "-",
+                                          dir=".")
+                outdir = self.outdir
+            else :
+                outdir = None
+
+            for f, out in r :
+                dst = make_out_path(f, outdir)
+                make_file(f, dst, gen_file, out, force)
+                if gen_file == gen_file_from_stream : # if out is stream
+                    out.close()
+
         return
 
     def run_pager(self, files, program) :
