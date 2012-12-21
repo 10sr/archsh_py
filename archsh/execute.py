@@ -123,6 +123,7 @@ class Execute() :
                 if r :
                     use_stream = True
                 else :
+                    print("This operation is not supported for this archive.")
                     return
 
             if path :
@@ -142,7 +143,12 @@ class Execute() :
     def run_pager(self, files, program) :
         # should use temp file and open at once?
         afiles = self.conv_path(files)
-        for f, out in self.handler.cat_files(afiles) :
+        r = self.handler.cat_files(afiles)
+        if not r :
+            print("This operation is not supported for this archive.")
+            return
+
+        for f, out in r :
             if program == "cat" :
                 for l in out :
                     print(l.decode(), end="")

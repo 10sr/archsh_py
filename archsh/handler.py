@@ -15,10 +15,10 @@ class Handler() :
         return []
 
     def cat_files(self, files) :
-        """Return iterable of tuple (file, output).
+        """Return iterable of tuple (file, output) or None.
 
         output is binary stream."""
-        return []
+        return None
 
     def extract_files(self, files, tempdir) :
         """Return iterable of tuple (file, path) or None.
