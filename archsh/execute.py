@@ -64,7 +64,7 @@ class Execute() :
         items = [f.ljust(m) for f in flist]
         prow, rem = divmod(col, m)
         rows = num // prow
-        if rem != 0 :
+        if rem != 0 or row == 0 :
             rows += 1
 
         lines = [""] * rows     # what is the best way to make list?
@@ -82,32 +82,37 @@ class Execute() :
         return
 
     def run_get(self, files, path=False, force=False) :
-        with TempDir(prefix="archsh-") as tempdir :
-            afiles = self.conv_path(files)
-            if path :
-                if not self.outdir :
-                    self.outdir = mkdtemp(prefix=self.env.basename + "-",
-                                          dir=".")
-                for f, out in self.handler.open_files(afiles, tempdir) :
-                    dst = osjoin(self.outdir, f)
-                    try :
-                        makedirs(dirname(dst))
-                    except OSError :
-                        pass
-                    if access(dst, F_OK) and force == False :
-                        print("'{}' already extracted.".format(dst))
-                    else :
-                        rename(out, dst)
-                        print("'{}' -> '{}'".format(f, dst))
-            else :
-                for f, out in self.handler.open_files(afiles, tempdir) :
-                    dst = osjoin(".", osbasename(out))
-                    if access(dst, F_OK) and force == False :
-                        print("'{}' already exist. Consider using getd.".\
-                                  format(dst))
-                    else :
-                        rename(out, dst)
-                        print("'{}' -> '{}'".format(f, dst))
+        afiles = self.conv_path(files)
+        if path :
+            if not self.outdir :
+                self.outdir = mkdtemp(prefix=self.env.basename + "-",
+                                      dir=".")
+            for f, out in self.handler.cat_files(afiles) :
+                dst = osjoin(self.outdir, f)
+                try :
+                    makedirs(dirname(dst))
+                except OSError :
+                    pass
+                if access(dst, F_OK) and force == False :
+                    print("'{}' already extracted.".format(dst))
+                else :
+                    fo = open(dst, mode="wb")
+                    fo.write(out.read())
+                    fo.close()
+                    print("'{}' -> '{}'".format(f, dst))
+                out.close()
+        else :
+            for f, out in self.handler.cat_files(afiles) :
+                dst = osjoin(".", osbasename(f))
+                if access(dst, F_OK) and force == False :
+                    print("'{}' already exist. Consider using getd.".\
+                              format(dst))
+                else :
+                    fo = open(dst, mode="wb")
+                    fo.write(out.read())
+                    fo.close()
+                    print("'{}' -> '{}'".format(f, dst))
+                out.close()
         return
 
     def run_pager(self, files, program) :
