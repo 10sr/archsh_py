@@ -83,32 +83,27 @@ class Execute() :
 
     def run_get(self, files, path=False, force=False) :
 
-        def gen_file_from_file(out, dst) :
-            """Gen file from OUT. OUT is path to temporary file."""
-            rename(out, dst)
-            return
-
-        def gen_file_from_stream(out, dst) :
-            """Gen file from """
-            fo = open(dst, mode="wb")
-            fo.write(out.read())
-            fo.close()
-            return
-
-        def make_file(path, dst, func, arg, force=False) :
-            """Create file using FUNC.
-
-            FUNC is gen_file_from_file or gen_file_from_stream.
-            ARG is passed to FUNC as first argument."""
+        def make_file(path, dst, use_stream, arg, force=False) :
+            """Create file."""
             try :
                 makedirs(dirname(dst))
             except OSError :
                 pass
+
             if access(dst, F_OK) and force == False :
                 print("'{}' alread exists.".format(dst))
             else :
-                func(arg, dst)
+                if use_stream :
+                    fo = open(dst, mode="wb")
+                    fo.write(arg.read())
+                    fo.close()
+                else :
+                    rename(arg, dst)
                 print("'{}' -> '{}'".format(path, dst))
+
+            if use_stream :
+                arg.close()
+
             return
 
         def make_out_path(f, d=None) :
@@ -121,16 +116,13 @@ class Execute() :
         with TempDir(prefix="archsh-") as tempdir :
             r = self.handler.extract_files(afiles, tempdir)
             if r :
-                gen_file = gen_file_from_file
+                use_stream = False
             else :
                 r = self.handler.cat_files(afiles)
                 if r :
-                    gen_file = gen_file_from_stream
+                    use_stream = True
                 else :
-                    gen_file = None
-
-            if not gen_file :
-                return
+                    return
 
             if path :
                 if not self.outdir :
@@ -142,9 +134,7 @@ class Execute() :
 
             for f, out in r :
                 dst = make_out_path(f, outdir)
-                make_file(f, dst, gen_file, out, force)
-                if gen_file == gen_file_from_stream : # if out is stream
-                    out.close()
+                make_file(f, dst, use_stream, out, force)
 
         return
 
