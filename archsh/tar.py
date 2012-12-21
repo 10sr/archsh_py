@@ -25,15 +25,14 @@ class TAR(Handler) :
         return self.list
 
     def cat_files(self, files) :
-        r = []
+        # this is not good. extract all files at once.
         for f in files :
             p = Popen([self.tar_command, self.extract_option, self.cat_option,
                        self.file_option, self.file, f],
                       stdout=PIPE, stderr=STDOUT)
-            r.append((f, p.stdout))
-        return r
+            yield (f, p.stdout)
 
-    def open_files(self, files, tempdir) :
+    def extract_files(self, files, tempdir) :
         lfiles = list(files)
         call([self.tar_command, self.extract_option, self.file_option,
               self.file, self.directory_option, tempdir] + lfiles)

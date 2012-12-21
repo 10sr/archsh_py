@@ -13,16 +13,17 @@ class Handler() :
     def get_list(self) :
         return []
     def cat_files(self, files) :
-        """Return list of tuple (file, output),
+        """Return iterable of tuple (file, output) or None.
 
-        output is file object."""
-        return []
-    def open_files(self, files, tempdir) :
+        output is binary stream."""
+        return None
+    def extract_files(self, files, tempdir) :
         """Currently this met is not needed for get file."""
-        """Return list of tuple (file, path).
+        """Return iterable of tuple (file, path) or None.
 
-        path is where the file was created."""
-        return []
+        path is where the file was created.
+        All files should be under tempdir."""
+        return None
 
 class FileInfo() :
     def __init__(self, name, mdate) :

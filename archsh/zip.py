@@ -35,9 +35,8 @@ class ZIP(Handler) :
         return r
 
     def cat_files(self, files) :
-        r = []
         for f in files :
             p = Popen([self.unzip_command, self.cat_option, self.file, f],
                       stdout=PIPE, stderr=STDOUT)
-            r.append((f,p.stdout))
-        return r
+            yield (f,p.stdout)
+        return

@@ -64,7 +64,7 @@ class Execute() :
         items = [f.ljust(m) for f in flist]
         prow, rem = divmod(col, m)
         rows = num // prow
-        if rem != 0 or row == 0 :
+        if rem != 0 or rows == 0 :
             rows += 1
 
         lines = [""] * rows     # what is the best way to make list?
