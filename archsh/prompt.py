@@ -157,7 +157,6 @@ class ArchCmd(Cmd) :
     def do_cd(self, line) :
         """cd: Change current directory."""
         args = self._parse_line(line)
-        print(args)
         self._exec.run_cd(args)
         return False
 
