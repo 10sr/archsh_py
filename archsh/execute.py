@@ -88,35 +88,35 @@ class Execute() :
                 if not self.outdir :
                     self.outdir = mkdtemp(prefix=self.env.basename + "-",
                                           dir=".")
-                for e in self.handler.open_files(afiles, tempdir) :
-                    dst = osjoin(self.outdir, e[0])
+                for f, out in self.handler.open_files(afiles, tempdir) :
+                    dst = osjoin(self.outdir, f)
                     try :
                         makedirs(dirname(dst))
                     except OSError :
                         pass
-                    rename(e[1], dst)
-                    print("'{}' -> '{}'".format(e[0], dst))
+                    rename(out, dst)
+                    print("'{}' -> '{}'".format(out, dst))
             else :
-                for e in self.handler.open_files(afiles, tempdir) :
-                    dst = osjoin(".", osbasename(e[1]))
+                for f, out in self.handler.open_files(afiles, tempdir) :
+                    dst = osjoin(".", osbasename(out))
                     if access(dst, F_OK) and force == False :
                         print("'{}' already exist. Consider using getd.".\
                                   format(dst))
                     else :
-                        rename(e[1], dst)
-                        print("'{}' -> '{}'".format(e[0], dst))
+                        rename(out, dst)
+                        print("'{}' -> '{}'".format(f, dst))
         return
 
     def run_pager(self, files, program) :
         # should use temp file and open at once?
         afiles = self.conv_path(files)
-        for e in self.handler.cat_files(afiles) :
+        for f, out in self.handler.cat_files(afiles) :
             if program == "cat" :
-                for l in e[1] :
+                for l in out :
                     print(l.decode(), end="")
             else :
-                call([program], stdin=e[1])
-            e[1].close()
+                call([program], stdin=out)
+            out.close()
         return
 
     def run_editor(self, files, program) :
