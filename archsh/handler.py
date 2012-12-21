@@ -18,6 +18,7 @@ class Handler() :
         output is file object."""
         return []
     def open_files(self, files, tempdir) :
+        """Currently this met is not needed for get file."""
         """Return list of tuple (file, path).
 
         path is where the file was created."""
