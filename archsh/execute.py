@@ -94,8 +94,11 @@ class Execute() :
                         makedirs(dirname(dst))
                     except OSError :
                         pass
-                    rename(out, dst)
-                    print("'{}' -> '{}'".format(out, dst))
+                    if access(dst, F_OK) and force == False :
+                        print("'{}' already extracted.".format(dst))
+                    else :
+                        rename(out, dst)
+                        print("'{}' -> '{}'".format(f, dst))
             else :
                 for f, out in self.handler.open_files(afiles, tempdir) :
                     dst = osjoin(".", osbasename(out))
