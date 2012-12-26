@@ -39,7 +39,6 @@ class P7Z(Handler) :
 
         for f in list(r) :
             if any(ff.startswith(f + "/") for ff in r) :
-                print(f + " removed")
                 r.remove(f)
 
         return r
