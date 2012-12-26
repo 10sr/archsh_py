@@ -16,13 +16,27 @@ from os.path import join as osjoin, basename as osbasename, dirname
 from os import mkdir, makedirs, access, F_OK
 from shutil import move
 from tempfile import mkdtemp, TemporaryDirectory as TempDir
+from random import random
 
-try :                           # this module is available only after 3.3
+try :                           # this function is available only after 3.3
     from shutil import get_terminal_size
 except ImportError :
     from os import getenv
     def get_terminal_size() :
         return (getenv("COLUMNS") or "80", getenv("LINES") or "24")
+
+def make_temp_dir(dir, prefix) :
+    def randstr() :
+        return hex(hash(random()))[2:7]
+
+    base = osjoin(dir, prefix)
+    while True :
+        try :
+            newdir = base + randstr()
+            mkdir(newdir)
+            return newdir
+        except OSError :
+            pass
 
 class Execute() :
     handler = None
@@ -126,13 +140,13 @@ class Execute() :
                 if r :
                     use_stream = True
                 else :
-                    print("This operation is not supported for this archive.")
+                    print("That operation is not supported for this archive.")
                     return
 
             if path :
                 if not self.outdir :
-                    self.outdir = mkdtemp(prefix=self.env.basename + "-",
-                                          dir=".")
+                    self.outdir = make_temp_dir(prefix=self.env.basename + "-",
+                                                dir=".")
                 outdir = self.outdir
             else :
                 outdir = None
@@ -148,7 +162,7 @@ class Execute() :
         afiles = self.conv_path(files)
         r = self.handler.cat_files(afiles)
         if not r :
-            print("This operation is not supported for this archive.")
+            print("That operation is not supported for this archive.")
             return
 
         for f, out in r :
