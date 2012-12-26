@@ -158,21 +158,39 @@ class Execute() :
 
         return
 
-    def run_pager(self, files, program) :
-        # should use temp file and open at once?
-        afiles = self.conv_path(files)
-        r = self.handler.cat_files(afiles)
-        if not r :
-            print("That operation is not supported for this archive.")
-            return
-
-        for f, out in r :
+    def run_pager_from_stream(self, program ,l) :
+        for f, out in l :
             if program == "cat" :
                 for l in out :
                     print(l.decode(), end="")
             else :
                 call([program], stdin=out)
             out.close()
+        return
+
+    def run_pager_from_file(self, program, l) :
+        if program == "cat" :
+            for f, out in l :
+                with open(out, "r") as fo :
+                    for l in fo :
+                        print(l, end="")
+        else :
+            call([program] + [i[1] for i in l])
+        return
+
+    def run_pager(self, files, program) :
+        # should use temp file and open at once?
+        afiles = self.conv_path(files)
+        r = self.handler.cat_files(afiles)
+        if r :
+            self.run_pager_from_stream(program, r)
+        else :
+            with TempDir(prefix="archsh-") as tempdir :
+                r = self.handler.extract_files(afiles, tempdir)
+                if r :
+                    self.run_pager_from_file(program, r)
+                else :
+                    print("That operation is not supported for this archive.")
         return
 
     def run_editor(self, files, program) :
