@@ -68,8 +68,10 @@ class Execute() :
             print("cd: dir {} not found.".format(args[0]))
         return
 
-    def run_ls(self, args) :
-        flist = sorted(self.env.current)
+    def run_ls(self, args, all=True) :
+        flist = sorted(self.env.current) # copied list
+        if not all :
+            flist = [f for f in flist if not f.startswith(".")]
         num = len(flist)
 
         if num == 0 :
