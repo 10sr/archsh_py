@@ -49,8 +49,13 @@ class Environ() :
         """Get list of child and current file relative path. Also used for
         compl.
 
-        CWD must be absolute path and contain trailing `/'.
+        CWD must be absolute path.
         This method does not overwrite any member."""
+        if cwd == None :
+            cwd = self.cwd
+        elif cwd != "/" and not cwd.endswith("/") :
+            cwd = cwd + "/"
+
         children = [e.replace(cwd, "", 1) for e in self.list \
                         if e.startswith(cwd)]
         current = [e for e in children if \

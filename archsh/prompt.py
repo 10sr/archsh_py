@@ -185,10 +185,7 @@ class ArchCmd(Cmd) :
     def _parse_line(self, line) :
         args = shsplit(line)
         eargs = []
-        wd = self._env.pwd()
-        if wd != "/" and not wd.endswith("/") :
-            wd = wd + "/"
-        children = self._env.get_current_list(wd)[0]
+        children = self._env.get_current_list()[0]
         for e in args :
             m = fnmatch.filter(children, e)
             print(children)
