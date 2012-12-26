@@ -43,7 +43,6 @@ class Execute() :
     outdir = None
 
     def __init__(self, env) :
-        # TemporaryDirectory() also can be used
         for h in handlers :
             for s in h.suffixes :
                 if env.find_suffix(s) :

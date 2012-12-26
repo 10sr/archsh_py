@@ -4,9 +4,16 @@ from .prompt import ArchCmd
 from .execute import Execute
 
 from posixpath import normpath, join, split
+from os.path import isfile, isdir
+import errno
 
 class Shell() :
     def __init__(self, archname) :
+        if isdir(archname) :
+            raise OSError("{} is a directory".format(archname))
+        elif not isfile(archname) :
+            raise OSError("{} not found".format(archname))
+
         self.e = Environ(archname)
         self.x = Execute(self.e)
         self.c = ArchCmd(self.e, self.x)
@@ -29,6 +36,7 @@ class Environ() :
     list = []                   # all file list with leading "/", ro
     child = []                  # list of file under current dir, relative
     current = []                # file list current dir contains, relative
+
     def __init__(self, archname) :
         self.file = archname
         return
