@@ -37,6 +37,11 @@ class P7Z(Handler) :
                 r.append(ul[offset:].rstrip("\n"))
         p.stdout.close()
 
+        for f in list(r) :
+            t = [ff for ff in r if ff.startswith(f + "/")]
+            if len(t) > 0 :
+                r.remove(f)
+
         return r
 
     # def cat_files(self, files) :
