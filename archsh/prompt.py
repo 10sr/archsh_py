@@ -188,7 +188,5 @@ class ArchCmd(Cmd) :
         children = self._env.get_current_list()[0]
         for e in args :
             m = fnmatch.filter(children, e)
-            print(children)
-            print(m)
             eargs.extend(m)
         return eargs
