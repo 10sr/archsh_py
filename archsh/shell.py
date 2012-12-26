@@ -52,13 +52,16 @@ class Environ() :
         else :
             return False
 
-    def set_list(self, list) :
+    def set_list(self, lst) :
         """Set self.list. This met is meant to be called only once."""
-        self.list = ["/" + e for e in list]
-        for f in self.list :
-            d, b = split(f)
-            if d != "/" and not d + "/" in self.list :
-                self.list.append(d + "/")
+        self.list = ["/" + e for e in lst]
+        for f in list(self.list) :
+            elems = f.lstrip("/").split("/")[:-1] # last one is filename
+            d = "/"
+            for e in elems :
+                d = d + e + "/"
+                if not d in self.list :
+                    self.list.append(d)
         self.list.append("/")
         self.update_list()
         return self.list
