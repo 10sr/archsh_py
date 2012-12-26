@@ -53,8 +53,8 @@ class Environ() :
         This method does not overwrite any member."""
         if cwd == None :
             cwd = self.cwd
-        elif cwd != "/" and not cwd.endswith("/") :
-            cwd = cwd + "/"
+        else :
+            cwd = self.get_dir(cwd)
 
         children = [e.replace(cwd, "", 1) for e in self.list \
                         if e.startswith(cwd)]
