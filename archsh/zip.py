@@ -6,7 +6,7 @@ from os.path import join as osjoin
 from .handler import Handler
 
 class ZIP(Handler) :
-    suffixes = [".zip"]
+    suffixes = [".zip", ".xpi"]
 
     unzip_command = "unzip"
 

@@ -102,7 +102,8 @@ class ArchCmd(Cmd) :
             print(line)
             print("file:{},suffix:{},basename:{}".format(
                     self._env.file, self._env.suffix, self._env.basename))
-            print("tmpdir:{}".format(self._exec.tmpdir))
+            # print("tmpdir:{}".format(self._exec.tmpdir))
+            print(self._env.list)
             return False
         else :
             return Cmd.default(self, line)
