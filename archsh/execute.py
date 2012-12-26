@@ -7,6 +7,9 @@ handlers.extend([TAR, TGZ, TBZ, TXZ])
 from .zip import ZIP
 handlers.append(ZIP)
 
+from .p7z import P7Z
+handlers.append(P7Z)
+
 from posixpath import normpath, join
 from subprocess import call
 from os.path import join as osjoin, basename as osbasename, dirname
