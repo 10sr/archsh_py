@@ -25,7 +25,7 @@ except ImportError :
     def get_terminal_size() :
         return (getenv("COLUMNS") or "80", getenv("LINES") or "24")
 
-def make_temp_dir(dir, prefix) :
+def mk_temp_dir(dir, prefix) :
     def randstr() :
         return hex(hash(random()))[2:7]
 
@@ -146,7 +146,7 @@ class Execute() :
 
             if path :
                 if not self.outdir :
-                    self.outdir = make_temp_dir(prefix=self.env.basename + "-",
+                    self.outdir = mk_temp_dir(prefix=self.env.basename + "-",
                                                 dir=".")
                 outdir = self.outdir
             else :
