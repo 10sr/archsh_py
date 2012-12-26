@@ -166,6 +166,11 @@ class ArchCmd(Cmd) :
         self._exec.run_ls(args)
         return False
 
+    def do_sl(self, line) :
+        """sl"""
+        call(["sl"])
+        return False
+
     def do_pwd(self, line) :
         """pwd: Print current working directory."""
         print(self._env.pwd())
