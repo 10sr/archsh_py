@@ -45,22 +45,23 @@ class Environ() :
         self.child, self.current = self.get_current_list(self.cwd)
         return
 
-    def get_current_list(self, cwd) :
-        """Get list of child and current file. Also used for compl.
+    def get_current_list(self, cwd=None) :
+        """Get list of child and current file relative path. Also used for
+        compl.
 
-        CWD must be absolute path.
+        CWD must be absolute path and contain trailing `/'.
         This method does not overwrite any member."""
-        child = [e.replace(cwd, "", 1) for e in self.list \
-                     if e.startswith(cwd)]
-        current = [e for e in child if \
+        children = [e.replace(cwd, "", 1) for e in self.list \
+                        if e.startswith(cwd)]
+        current = [e for e in children if \
                        # file
-                       (not "/" in e and e != "") or \
+                   (not "/" in e and e != "") or \
                        # directory
-                       (e.count("/") == 1 and e.endswith("/"))]
-        return (child, current)
+                   (e.count("/") == 1 and e.endswith("/"))]
+        return (children, current)
 
     def pwd(self) :
-        """Print current working directory."""
+        """Print current working directory without trailing `/'."""
         if self.cwd == "/" :
             return "/"
         else :
@@ -77,6 +78,7 @@ class Environ() :
     def get_dir(self, newpath=None) :
         """Calculate new path and return absolute path or None if nonexist.
 
+        Return value is like /dir/.
         This method do not overwrite any member.
         NEWPATH can be absolute or relative.
         If NEWPATH is empty string or None, it returns root directory."""
@@ -97,4 +99,3 @@ class Environ() :
             return newd
         else :
             return None
-

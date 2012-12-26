@@ -77,7 +77,7 @@ class ArchCmd(Cmd) :
         else :
             adir = self._env.get_dir(head)
 
-        child, current = self._env.get_current_list(adir)
+        children, current = self._env.get_current_list(adir)
         if head != "" :
             head = head + "/"
         cand = [(head + e) for e in current if e.startswith(tail)]
@@ -184,11 +184,14 @@ class ArchCmd(Cmd) :
 
     def _parse_line(self, line) :
         args = shsplit(line)
-        # eargs = [args[0]]
-        # for a in args[1:] :
-        #     g = glob(a)
-        #     if len(g) == 0 :
-        #         eargs.extend([a])
-        #     else :
-        #         eargs.extend(g)
-        return args
+        eargs = []
+        wd = self._env.pwd()
+        if wd != "/" and not wd.endswith("/") :
+            wd = wd + "/"
+        children = self._env.get_current_list(wd)[0]
+        for e in args :
+            m = fnmatch.filter(children, e)
+            print(children)
+            print(m)
+            eargs.extend(m)
+        return eargs
