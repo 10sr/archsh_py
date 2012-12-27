@@ -136,6 +136,12 @@ class ArchCmd(Cmd) :
 
     def call_pager(self, line) :
         print(globals()["dict"])
+        return
+
+    def do_echo(self, line) :
+        args = self._parse_line(line)
+        print(" ".join(args))
+        return False
 
     def do_less(self, line) :
         """less: View file contents with less."""
@@ -188,5 +194,9 @@ class ArchCmd(Cmd) :
         children = self._env.get_current_list()[0]
         for e in args :
             m = fnmatch.filter(children, e)
-            eargs.extend(m)
+            if len(m) == 0 :
+                # if e does not match any file, use without change
+                eargs.append(e)
+            else :
+                eargs.extend(m)
         return eargs
