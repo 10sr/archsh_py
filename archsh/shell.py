@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from .prompt import ArchCmd
+from .archcmd import ArchCmd
 from .execute import Execute
 from .environ import Environ
 
