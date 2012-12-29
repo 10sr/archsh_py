@@ -6,6 +6,8 @@ from posixpath import split as pathsplit
 from cmd import Cmd
 from subprocess import call
 
+from . import color
+
 try:
     import readline
 except ImportError:
@@ -39,7 +41,9 @@ class ArchCmd(Cmd) :
 
     def _set_prompt(self) :
         try :
-            self.prompt = "{}:{} $ ".format(self._env.file, self._env.pwd())
+            name = color.colored(self._env.file, fg=color.BLUE, bold=True)
+            wd = self._env.pwd()
+            self.prompt = "{}:{} $ ".format(name, wd)
         except AttributeError :
             pass
         return
