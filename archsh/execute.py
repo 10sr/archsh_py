@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# todo: parse args, use cache dir
+
 handlers = []
 from .tar import TAR, TGZ, TBZ, TXZ
 handlers.extend([TAR, TGZ, TBZ, TXZ])

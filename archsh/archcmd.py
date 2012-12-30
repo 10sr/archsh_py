@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# todo: use fnmatch in execute.py?
+
 import fnmatch                  # maybe i can use filter
 from shlex import split as shsplit
 from posixpath import split as pathsplit

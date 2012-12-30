@@ -27,8 +27,29 @@ class Environ() :
             return False
 
     def set_list(self, lst) :
-        """Set self.list. This met is meant to be called only once."""
+        """Set self.list. This met is meant to be called only once.
+
+        LST is list of files in archive. For example, if dir tree is like :
+
+        dir/
+        |--file1
+        `--file2
+
+        LST should be like any of :
+
+            lst = ['dir', 'dir/file1', 'dir/file2']
+        or
+            lst = ['dir/', 'dir/file1', 'dir/file2']
+        or
+            lst = ['dir/file1', 'dir/file2'] """
         self.list = ["/" + e for e in lst]
+
+        # remove dirs without trailing "/"
+        for f in list(self.list) :
+            if any(ff.startswith(f + "/") for ff in self.list) :
+                self.list.remove(f)
+
+        # add dir entries
         for f in list(self.list) :
             elems = f.lstrip("/").split("/")[:-1] # last one is filename
             d = "/"
