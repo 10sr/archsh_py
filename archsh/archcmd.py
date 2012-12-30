@@ -145,6 +145,7 @@ class ArchCmd(Cmd) :
         return
 
     def do_echo(self, line) :
+        """echo: Output args."""
         args = self._parse_line(line)
         print(" ".join(args))
         return False
@@ -180,7 +181,7 @@ class ArchCmd(Cmd) :
         return False
 
     def do_sl(self, line) :
-        """sl"""
+        """sl: Steam Locomotive runs across your terminal."""
         call(["sl"])
         return False
 
