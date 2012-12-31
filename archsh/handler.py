@@ -18,6 +18,9 @@ class Handler() :
         """Return iterable of tuple (file, output) or None.
 
         output is binary stream."""
+        raise NotImplementedError(
+            "Method cat_files() is not implemented in {}".\
+                format(self.__class__))
         return None
 
     def extract_files(self, files, tempdir) :
@@ -25,6 +28,9 @@ class Handler() :
 
         path is where the file was created.
         All files should be under tempdir."""
+        raise NotImplementedError(
+            "Method extract_files() is not implemented in {}".\
+                format(self.__class__))
         return None
 
 class FileInfo() :

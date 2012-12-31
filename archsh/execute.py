@@ -135,14 +135,16 @@ class Execute() :
 
         afiles = self.conv_path(files)
         with TempDir(prefix="archsh-") as tempdir :
-            r = self.handler.extract_files(afiles, tempdir)
-            if r :
-                use_stream = False
-            else :
-                r = self.handler.cat_files(afiles)
+            try :
+                r = self.handler.extract_files(afiles, tempdir)
                 if r :
-                    use_stream = True
-                else :
+                    use_stream = False
+            except NotImplementedError :
+                try :
+                    r = self.handler.cat_files(afiles)
+                    if r :
+                        use_stream = True
+                except NotImplementedError :
                     print("That operation is not supported for this archive.")
                     return
 
@@ -183,15 +185,17 @@ class Execute() :
     def run_pager(self, files, program) :
         # should use temp file and open at once?
         afiles = self.conv_path(files)
-        r = self.handler.cat_files(afiles)
-        if r :
-            self.run_pager_from_stream(program, r)
-        else :
+        try :
+            r = self.handler.cat_files(afiles)
+            if r :
+                self.run_pager_from_stream(program, r)
+        except NotImplementedError :
             with TempDir(prefix="archsh-") as tempdir :
-                r = self.handler.extract_files(afiles, tempdir)
-                if r :
-                    self.run_pager_from_file(program, r)
-                else :
+                try :
+                    r = self.handler.extract_files(afiles, tempdir)
+                    if r :
+                        self.run_pager_from_file(program, r)
+                except NotImplementedError :
                     print("That operation is not supported for this archive.")
         return
 
