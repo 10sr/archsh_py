@@ -35,7 +35,7 @@ class TAR(Handler) :
     def extract_files(self, files, tempdir) :
         call([self.tar_command, self.extract_option, self.file_option,
               self.file, self.directory_option, tempdir] + files)
-        return [(f, osjoin(tempdir, f)) for f in files]
+        return ((f, osjoin(tempdir, f)) for f in files)
 
 class TGZ(TAR) :
     suffixes = [".tar.gz", ".tgz"]

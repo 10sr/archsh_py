@@ -43,7 +43,6 @@ class ZIP(Handler) :
             p = Popen([self.unzip_command, self.cat_option, self.file, f],
                       stdout=PIPE, stderr=STDOUT)
             yield (f,p.stdout)
-        return
 
     def extract_files(self, files, tempdir) :
         call([self.unzip_command, self.file] + files + \
