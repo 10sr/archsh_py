@@ -7,36 +7,36 @@ _ESC_CODE = "\033"
 _CODE_BASE = "\033" + "[{}m"
 def colored(s, fg=DEF, bg=DEF,
             bold=False, italic=False, underline=False, inverse=False,
-            strikethrough=False) :
+            strikethrough=False):
 
     code = []
 
-    if bold :
+    if bold:
         code.append("1")
 
-    if italic :
+    if italic:
         code.append("3")
 
-    if underline :
+    if underline:
         code.append("4")
 
-    if inverse :
+    if inverse:
         code.append("7")
 
-    if strikethrough :
+    if strikethrough:
         code.append("9")
 
-    if fg != DEF :
+    if fg != DEF:
         code.append("3" + str(fg))
 
-    if bg != DEF :
+    if bg != DEF:
         code.append("4" + str(bg))
 
     codestr = ";".join(code)
 
     return _CODE_BASE.format(codestr) + s + _CODE_BASE.format(0)
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     c1 = colored("red str", fg=RED, underline=True)
     c2 = colored("blue with yellow bg", fg=BLUE, bg=YELLOW, bold=True)
     print(c1 + " normal str")

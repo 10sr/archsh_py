@@ -5,7 +5,7 @@ from posixpath import split
 from os.path import join as osjoin
 from .handler import Handler
 
-class P7Z(Handler) :
+class P7Z(Handler):
     suffixes = [".7z"]
 
     p7z_command = "7z"
@@ -16,37 +16,37 @@ class P7Z(Handler) :
 
     directory_option = "-o"
 
-    def get_list(self) :
+    def get_list(self):
         offset = 0
         start = False
         r = []
         p = Popen([self.p7z_command, self.list_option, self.file],
                   stdout=PIPE, stderr=STDOUT)
-        for l in p.stdout :
+        for l in p.stdout:
             ul = l.decode()
-            if ul.startswith("   Date") :
+            if ul.startswith("   Date"):
                 offset = ul.index("Name")
-            elif ul.startswith("------") :
-                if not start :
+            elif ul.startswith("------"):
+                if not start:
                     start = True
-                else :
+                else:
                     break
-            elif not start :
+            elif not start:
                 pass
-            else :
+            else:
                 r.append(ul[offset:].rstrip("\n"))
         p.stdout.close()
 
         return r
 
-    # def cat_files(self, files) :
-    #     for f in files :
+    # def cat_files(self, files):
+    #     for f in files:
     #         p = Popen([self.p7z_command, self.extract_option, self.file, f],
     #                   stdout=PIPE, stderr=STDOUT)
     #         yield (f,p.stdout)
     #     return
 
-    def extract_files(self, files, tempdir) :
+    def extract_files(self, files, tempdir):
         call([self.p7z_command, self.extract_option, \
                   self.directory_option + tempdir, self.file] + files)
         return ((f, osjoin(tempdir, f)) for f in files)
