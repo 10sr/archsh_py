@@ -9,14 +9,19 @@ def add_archsh_path():
         sys.path.insert(0, libdir)
     # sys.argv[0] = os.path.abspath(__file__)
 
-def main(argv) :
-    if len(argv) == 2 :
-        from archsh import shell
-        s = shell(argv[1])
-        s.main()
-    else :
-        print("invalid arg!")
+def main(argv):
+    import argparse as ap
 
-if __name__ == "__main__" :
+    from archsh import shell
+
+    parser = ap.ArgumentParser("archsh")
+    parser.add_argument("archive", help="archive file name")
+
+    args = parser.parse_args(argv[1:])
+
+    s = shell(args.archive)
+    s.main()
+
+if __name__ == "__main__":
     add_archsh_path()
     main(sys.argv)
