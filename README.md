@@ -20,7 +20,8 @@ How does it work?
     cat    echo   get    help   ls     put    shell  vi
     archsh_py.tgz:/ $ cd archsh/ # Change directory.
     archsh_py.tgz:/archsh $ ls
-    __init__.py archcmd.py  color.py    environ.py  execute.py  handler.py  p7z.py      shell.py    tar.py      zip.py      
+    __init__.py color.py    execute.py  p7z.py      tar.py
+    archcmd.py  environ.py  handler.py  shell.py    zip.py
     archsh_py.tgz:/archsh $ get e # Completing files works.
     environ.py  execute.py
     archsh_py.tgz:/archsh $ get execute.py # Extract file.
@@ -49,4 +50,5 @@ How does it work?
     archsh
     
     ./archsh:
-    __init__.py  archcmd.py  color.py  environ.py  execute.py  handler.py  p7z.py  shell.py  tar.py  zip.py
+    __init__.py  color.py	 execute.py  p7z.py    tar.py
+    archcmd.py   environ.py  handler.py  shell.py  zip.py
