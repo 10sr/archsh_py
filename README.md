@@ -72,5 +72,4 @@ Archsh is tested under python 3.2.
 Archive XXX is not supported?
 -----------------------------
 
-Please write *handler*! For details read pydoc of
-[Handler](archsh_py/archsh/handler/__init__.py).
+Please write _handler_! For details read pydoc of archsh.handler.Handler .
