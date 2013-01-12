@@ -41,7 +41,8 @@ class Environ():
         or
             lst = ['dir/', 'dir/file1', 'dir/file2']
         or
-            lst = ['dir/file1', 'dir/file2'] """
+            lst = ['dir/file1', 'dir/file2']
+        """
         self.list = ["/" + e for e in lst]
 
         # remove dirs without trailing "/"
