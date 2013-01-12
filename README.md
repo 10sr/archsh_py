@@ -73,4 +73,4 @@ Archive XXX is not supported?
 -----------------------------
 
 Please write *handler*! For details read pydoc of
-[Handler](archsh/handler/__init__.py).
+[Handler](archsh_py/archsh/handler/__init__.py).
