@@ -53,3 +53,13 @@ How does it work?
     __init__.py  color.py	 execute.py  p7z.py    tar.py
     archcmd.py   environ.py  handler.py  shell.py  zip.py
     $
+
+Installation
+============
+
+    ./setup.py install
+
+Dependencies
+============
+
+Archsh is tested under python 3.2.
