@@ -15,10 +15,13 @@ How does it work?
     ======
     
     Shell for archive.
+    archsh_py.tgz:/ $ # Complete commands.
+    EOF    cd     exit   getd   less   more   pwd    sl
+    cat    echo   get    help   ls     put    shell  vi
     archsh_py.tgz:/ $ cd archsh/ # Change directory.
     archsh_py.tgz:/archsh $ ls
     __init__.py archcmd.py  color.py    environ.py  execute.py  handler.py  p7z.py      shell.py    tar.py      zip.py      
-    archsh_py.tgz:/archsh $ get e # Completion works.
+    archsh_py.tgz:/archsh $ get e # Completing files works.
     environ.py  execute.py
     archsh_py.tgz:/archsh $ get execute.py # Extract file.
     'archsh/execute.py' -> './execute.py'
@@ -35,14 +38,15 @@ How does it work?
     'archsh/shell.py' -> './archsh_py-15d0b/archsh/shell.py'
     'archsh/tar.py' -> './archsh_py-15d0b/archsh/tar.py'
     'archsh/zip.py' -> './archsh_py-15d0b/archsh/zip.py'
+    archsh_py.tgz:/archsh $ cd
+    archsh_py.tgz:/ $ vi
+    Modifying file is not supported yet...
     archsh_py.tgz:/archsh $ exit
     Bye!
-    $ cd archsh_py-15d0b/ # Files extracted by `getd' command.
-    $ ls -R
+    $ cd archsh_py-15d0b/
+    $ ls -R # Files extracted by `getd' command.
     .:
     archsh
     
     ./archsh:
     __init__.py  archcmd.py  color.py  environ.py  execute.py  handler.py  p7z.py  shell.py  tar.py  zip.py
-    $ exit
-    exit
