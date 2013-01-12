@@ -4,7 +4,7 @@ archsh
 Shell for archive.
 
 How does it work?
-=================
+-----------------
 
     $ archsh archsh_py.tgz
     Archsh command line for archive
@@ -55,7 +55,7 @@ How does it work?
     $
 
 Installation
-============
+------------
 
 Execute following command:
 
@@ -65,6 +65,6 @@ Or just create simlink of bin/archsh and put it into your prefered directory
 like "$HOME/bin".
 
 Dependencies
-============
+------------
 
 Archsh is tested under python 3.2.
