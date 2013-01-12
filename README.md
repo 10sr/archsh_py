@@ -8,6 +8,9 @@ How does it work?
 
     $ archsh archsh_py.tgz
     Archsh command line for archive
+    archsh_py.tgz:/ $ # Complete commands.
+    EOF    cd     exit   getd   less   more   pwd    sl
+    cat    echo   get    help   ls     put    shell  vi
     archsh_py.tgz:/ $ ls
     README.md archsh/   bin/      setup.py
     archsh_py.tgz:/ $ cat README.md # View file content.
@@ -15,9 +18,6 @@ How does it work?
     ======
     
     Shell for archive.
-    archsh_py.tgz:/ $ # Complete commands.
-    EOF    cd     exit   getd   less   more   pwd    sl
-    cat    echo   get    help   ls     put    shell  vi
     archsh_py.tgz:/ $ cd archsh/ # Change directory.
     archsh_py.tgz:/archsh $ ls
     __init__.py color.py    execute.py  p7z.py      tar.py
@@ -52,3 +52,4 @@ How does it work?
     ./archsh:
     __init__.py  color.py	 execute.py  p7z.py    tar.py
     archcmd.py   environ.py  handler.py  shell.py  zip.py
+    $
