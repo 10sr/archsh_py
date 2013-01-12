@@ -3,7 +3,8 @@
 from subprocess import Popen, PIPE, STDOUT, call
 from posixpath import split
 from os.path import join as osjoin
-from .handler import Handler
+
+from archsh.handler import Handler
 
 class ZIP(Handler):
     suffixes = [".zip", ".xpi"]

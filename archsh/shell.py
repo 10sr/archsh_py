@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from .archcmd import ArchCmd
-from .execute import Execute
-from .environ import Environ
+from archsh.archcmd import ArchCmd
+from archsh.execute import Execute
+from archsh.environ import Environ
 
 from os.path import isfile, isdir
 

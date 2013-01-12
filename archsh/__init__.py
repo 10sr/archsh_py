@@ -5,6 +5,6 @@
 Cd to your archive files and execute commands.
 """
 
-from .shell import Shell as shell
+from archsh.shell import Shell as shell
 
 __version__ = "0.0.1"

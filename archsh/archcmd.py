@@ -8,7 +8,7 @@ from posixpath import split as pathsplit
 from cmd import Cmd
 from subprocess import call
 
-from . import color
+from archsh import color
 
 try:
     import readline

@@ -5,7 +5,7 @@
 from subprocess import call, check_output, Popen, PIPE, STDOUT
 from os.path import join as osjoin
 
-from .handler import Handler
+from archsh.handler import Handler
 
 class TAR(Handler):
     suffixes = [".tar"]

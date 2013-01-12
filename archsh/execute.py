@@ -3,13 +3,13 @@
 # todo: parse args, use cache dir
 
 handlers = []
-from .tar import TAR, TGZ, TBZ, TXZ
+from archsh.handler.tar import TAR, TGZ, TBZ, TXZ
 handlers.extend([TAR, TGZ, TBZ, TXZ])
 
-from .zip import ZIP
+from archsh.handler.zip import ZIP
 handlers.append(ZIP)
 
-from .p7z import P7Z
+from archsh.handler.p7z import P7Z
 handlers.append(P7Z)
 
 from posixpath import normpath, join
