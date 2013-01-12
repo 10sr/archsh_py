@@ -13,7 +13,7 @@ How does it work?
     cat    echo   get    help   ls     put    shell  vi
     archsh_py.tgz:/ $ ls
     README.md archsh/   bin/      setup.py
-    archsh_py.tgz:/ $ cat README.md # View file content.
+    archsh_py.tgz:/ $ cat README.md # Get file content.
     archsh
     ======
     
@@ -22,9 +22,9 @@ How does it work?
     archsh_py.tgz:/archsh $ ls
     __init__.py color.py    execute.py  p7z.py      tar.py
     archcmd.py  environ.py  handler.py  shell.py    zip.py
-    archsh_py.tgz:/archsh $ get e # Completing files works.
+    archsh_py.tgz:/archsh $ get e # Complete files.
     environ.py  execute.py
-    archsh_py.tgz:/archsh $ get execute.py # Extract file.
+    archsh_py.tgz:/archsh $ get execute.py # Extract files.
     'archsh/execute.py' -> './execute.py'
     archsh_py.tgz:/archsh $ get
     get   getd
@@ -62,7 +62,7 @@ Execute following command:
     ./setup.py install
 
 Or just create simlink of bin/archsh and put it into your prefered directory
-like "$HOME/bin".
+like "$HOME/bin" or "$HOME/.local/bin".
 
 Dependencies
 ------------
