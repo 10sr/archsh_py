@@ -68,3 +68,9 @@ Dependencies
 ------------
 
 Archsh is tested under python 3.2.
+
+Archive XXX is not supported?
+-----------------------------
+
+Please write *handler*! For details read pydoc of
+[Handler](archsh/handler/__init__.py).
