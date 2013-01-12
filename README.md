@@ -57,7 +57,12 @@ How does it work?
 Installation
 ============
 
+Execute following command:
+
     ./setup.py install
+
+Or just create simlink of bin/archsh and put it into your prefered directory
+like "$HOME/bin".
 
 Dependencies
 ============
