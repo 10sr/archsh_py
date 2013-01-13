@@ -6,7 +6,7 @@ Writing handlers
 ================
 
 1. Write class that inherits `Handler' and implement get_list and (cat_files
- and/or extract_files).
+   and/or extract_files).
 2. Add the class to list execute.handlers .
 """
 
@@ -17,7 +17,7 @@ class Handler():
         file: Filename of archive.
         suffixes: List of suffixes representing file types this handler
             supports.
-        """
+    """
     suffixes = []
     def __init__(self, file):
         self.file = file
