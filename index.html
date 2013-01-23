@@ -30,32 +30,78 @@
 
       </header>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>archsh</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Shell for archive.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h2>How does it work?</h2>
+
+<pre><code>$ archsh archsh_py.tgz
+Archsh command line for archive
+archsh_py.tgz:/ $ # Complete commands.
+EOF    cd     exit   getd   less   more   pwd    sl
+cat    echo   get    help   ls     put    shell  vi
+archsh_py.tgz:/ $ ls
+README.md archsh/   bin/      setup.py
+archsh_py.tgz:/ $ cat README.md # Get file content.
+archsh
+======
+
+Shell for archive.
+archsh_py.tgz:/ $ cd archsh/ # Change directory.
+archsh_py.tgz:/archsh $ ls
+__init__.py color.py    execute.py  p7z.py      tar.py
+archcmd.py  environ.py  handler.py  shell.py    zip.py
+archsh_py.tgz:/archsh $ get e # Complete files.
+environ.py  execute.py
+archsh_py.tgz:/archsh $ get execute.py # Extract files.
+'archsh/execute.py' -&gt; './execute.py'
+archsh_py.tgz:/archsh $ get
+get   getd
+archsh_py.tgz:/archsh $ getd *.py # Extract files with path. Glob also works.
+'archsh/__init__.py' -&gt; './archsh_py-15d0b/archsh/__init__.py'
+'archsh/archcmd.py' -&gt; './archsh_py-15d0b/archsh/archcmd.py'
+'archsh/color.py' -&gt; './archsh_py-15d0b/archsh/color.py'
+'archsh/environ.py' -&gt; './archsh_py-15d0b/archsh/environ.py'
+'archsh/execute.py' -&gt; './archsh_py-15d0b/archsh/execute.py'
+'archsh/handler.py' -&gt; './archsh_py-15d0b/archsh/handler.py'
+'archsh/p7z.py' -&gt; './archsh_py-15d0b/archsh/p7z.py'
+'archsh/shell.py' -&gt; './archsh_py-15d0b/archsh/shell.py'
+'archsh/tar.py' -&gt; './archsh_py-15d0b/archsh/tar.py'
+'archsh/zip.py' -&gt; './archsh_py-15d0b/archsh/zip.py'
+archsh_py.tgz:/archsh $ cd
+archsh_py.tgz:/ $ vi
+Modifying file is not supported yet...
+archsh_py.tgz:/archsh $ exit
+Bye!
+$ cd archsh_py-15d0b/
+$ ls -R # Files extracted by `getd' command.
+.:
+archsh
+
+./archsh:
+__init__.py  color.py    execute.py  p7z.py    tar.py
+archcmd.py   environ.py  handler.py  shell.py  zip.py
+$
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>Installation</h2>
 
-<h3>Designer Templates</h3>
+<p>Execute following command:</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<pre><code>./setup.py install
+</code></pre>
 
-<h3>Rather Drive Stick?</h3>
+<p>Or just create simlink of bin/archsh and put it into your prefered directory
+like "$HOME/bin" or "$HOME/.local/bin".</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h2>Dependencies</h2>
 
-<h3>Authors and Contributors</h3>
+<p>Archsh is tested under python 3.2.</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>Archive XXX is not supported?</h2>
 
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Please write <strong>handler</strong>! For details read pydoc of archsh.handler .</p>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
