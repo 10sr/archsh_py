@@ -23,8 +23,8 @@ from random import random
 try :                           # this function is available only after 3.3
     from shutil import get_terminal_size
 except ImportError:
-    from os import getenv
     def get_terminal_size():
+        from os import getenv
         return (getenv("COLUMNS") or "80", getenv("LINES") or "24")
 
 def mk_temp_dir(dir, prefix):
@@ -43,6 +43,7 @@ def mk_temp_dir(dir, prefix):
 class Execute():
     handler = None
     outdir = None
+    cachedir = None
 
     def __init__(self, env):
         for h in handlers:
@@ -56,6 +57,10 @@ class Execute():
         if self.handler:
             env.set_list(self.handler.get_list())
         self.env = env
+        return
+
+    def finalize(self):
+        """Remove cache diretory."""
         return
 
     def conv_path(self, args):

@@ -7,7 +7,7 @@ Writing handlers
 
 1. Write class that inherits `Handler' and implement get_list and (cat_files
    and/or extract_files).
-2. Add the class to list execute.handlers .
+2. Add the class to the list execute.handlers .
 """
 
 class Handler():
@@ -27,7 +27,7 @@ class Handler():
         """Return list of files.
 
         Returns:
-            List of files in archive. For example, if archive contains files
+            Iterable of files in archive. For example, if archive contains files
             like:
 
                 dir/
