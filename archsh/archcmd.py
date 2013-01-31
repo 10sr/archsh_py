@@ -138,11 +138,12 @@ class ArchCmd(Cmd):
         return False
 
     def do_put(self, line):
+        print("Modifying file is not supported yet...")
         return False
 
-    def call_pager(self, line):
-        print(globals()["dict"])
-        return
+    # def call_pager(self, line):
+    #     print(globals()["dict"])
+    #     return
 
     def do_echo(self, line):
         """echo: Output args."""

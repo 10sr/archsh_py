@@ -8,12 +8,12 @@ How does it work?
 
     $ archsh archsh_py.tgz
     Archsh command line for archive
-    archsh_py.tgz:/ $ # Complete commands.
+    archsh_py.tgz:/ $ # Complete commands by tab.
     EOF    cd     exit   getd   less   more   pwd    sl
     cat    echo   get    help   ls     put    shell  vi
     archsh_py.tgz:/ $ ls
     README.md archsh/   bin/      setup.py
-    archsh_py.tgz:/ $ cat README.md # Get file content.
+    archsh_py.tgz:/ $ cat README.md # View file content.
     archsh
     ======
     
@@ -28,7 +28,7 @@ How does it work?
     'archsh/execute.py' -> './execute.py'
     archsh_py.tgz:/archsh $ get
     get   getd
-    archsh_py.tgz:/archsh $ getd *.py # Extract files with path. Glob also works.
+    archsh_py.tgz:/archsh $ getd *.py # Extract files with path. And glob works.
     'archsh/__init__.py' -> './archsh_py-15d0b/archsh/__init__.py'
     'archsh/archcmd.py' -> './archsh_py-15d0b/archsh/archcmd.py'
     'archsh/color.py' -> './archsh_py-15d0b/archsh/color.py'
@@ -67,7 +67,7 @@ like "$HOME/bin" or "$HOME/.local/bin".
 Dependencies
 ------------
 
-Archsh is tested under python 3.2.
+Archsh is tested under python 3.2 and 3.3.
 
 Archive XXX is not supported?
 -----------------------------
