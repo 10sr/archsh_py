@@ -7,4 +7,4 @@ Cd to your archive files and execute commands like ls or less.
 
 from archsh.shell import Shell as shell
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
