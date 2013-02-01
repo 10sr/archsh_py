@@ -3,6 +3,7 @@ archsh
 
 Shell for archive.
 
+
 How does it work?
 -----------------
 
@@ -54,6 +55,7 @@ How does it work?
     archcmd.py   environ.py  handler.py  shell.py  zip.py
     $
 
+
 Installation
 ------------
 
@@ -64,10 +66,12 @@ Execute following command:
 Or just create simlink of bin/archsh and put it into your prefered directory
 like "$HOME/bin" or "$HOME/.local/bin".
 
+
 Dependencies
 ------------
 
 Archsh is tested under python 3.2 and 3.3.
+
 
 Archive XXX is not supported?
 -----------------------------
