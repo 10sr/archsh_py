@@ -77,3 +77,9 @@ Archive XXX is not supported?
 -----------------------------
 
 Please write **handler**! For details read pydoc of archsh.handler .
+
+
+License
+-------
+
+All code licensed under CC0: <http://creativecommons.org/publicdomain/zero/1.0/>
