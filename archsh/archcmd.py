@@ -8,6 +8,7 @@ from posixpath import split as pathsplit
 from cmd import Cmd
 from subprocess import call
 
+import archsh
 from archsh import color
 
 try:
@@ -32,7 +33,8 @@ class ArchCmd(Cmd):
         self._env = env
         self._exec = execute
 
-        self.intro = "Archsh command line for archive"
+        self.intro = ("Archsh {}".format(archsh.__version__) +
+                      " Command line for archive")
 
         self._set_prompt()
 

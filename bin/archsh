@@ -13,15 +13,14 @@ def add_path():
 def main(argv):
     import argparse as ap
 
-    from archsh import shell
+    import archsh
 
     parser = ap.ArgumentParser("archsh")
     parser.add_argument("archive", help="archive file name")
 
     args = parser.parse_args(argv[1:])
 
-    s = shell(args.archive)
-    s.main()
+    archsh.main(args.archive)
 
 if __name__ == "__main__":
     add_path()
