@@ -3,16 +3,19 @@
 from posixpath import normpath, join, split
 
 class Environ():
-    file = ""                   # filename of archive
-    suffix = ""                 # suffix
-    basename = ""               # filename without suffix
-    cwd = "/"                   # cwd starts and ends with "/"
-    list = []                   # all file list with leading "/", ro
-    child = []                  # list of file under current dir, relative
-    current = []                # file list current dir contains, relative
+    file = ""                   # Filename of archive.
+    type = None                 # File type.
+    suffix = ""                 # Suffix.
+    basename = ""               # Filename without suffix.
+    cwd = "/"                   # Cwd starts and ends with "/".
+    list = []                   # All file list with leading "/", ro.
+    child = []                  # List of file under current dir, relative.
+    current = []                # File list current dir contains, relative.
 
-    def __init__(self, archname):
+    def __init__(self, archname, filetype=None):
         self.file = archname
+        if filetype:
+            self.type = filetype
         return
 
     def find_suffix(self, suffix):

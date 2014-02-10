@@ -12,14 +12,14 @@ from archsh.execute import Execute
 from archsh.environ import Environ
 
 class Archsh():
-    def __init__(self, filename):
+    def __init__(self, filename, type_=None):
         if isdir(filename):
             raise OSError("{} is a directory".format(filename))
         elif not isfile(filename):
             raise OSError("{} not found".format(filename))
 
         self.filename = filename
-        self.e = Environ(filename)
+        self.e = Environ(filename, type_)
         self.x = Execute(self.e)
         self.c = ArchCmd(self.e, self.x)
         # for e in self.e.list:
@@ -36,8 +36,8 @@ class Archsh():
             print("No handler found for {}.".format(self.e.file))
         return
 
-def main(filename):
-    a = Archsh(filename)
+def main(filename, type_=None):
+    a = Archsh(filename, type_)
     return a.main()
 
 __version__ = "0.0.4"
